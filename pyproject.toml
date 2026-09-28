@@ -12,7 +12,7 @@ license = "Apache-2.0"
 dependencies = []
 
 [project.optional-dependencies]
-test = ["pytest>=8,<10"]
+test = ["pytest>=8,<10", "hypothesis>=6,<7"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "vectors-source-coverage/tests"]

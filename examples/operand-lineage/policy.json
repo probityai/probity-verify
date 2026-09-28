@@ -1,0 +1,26 @@
+{
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "source": {
+      "artifact": "source",
+      "sha256": "25cb81c3facf2ade2697af826e9abd91cd4e295e9e7ca4af4c65fff51cf5c2c7",
+      "authority": "consumer-pinned synthetic source"
+    },
+    "execution": {
+      "artifact": "execution",
+      "sha256": "9804c939c5262266acd1dba102f73d9e141dfa246a593201adbf59fc3d92f8a2",
+      "authority": "consumer-pinned synthetic execution"
+    }
+  },
+  "assessments": {
+    "example-lineage": {
+      "claim_type": "operand_lineage/v1",
+      "source_witness": "source",
+      "execution_witness": "execution",
+      "final_step": "total",
+      "constants": {
+        "multiplier": "2"
+      }
+    }
+  }
+}

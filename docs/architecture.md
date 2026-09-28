@@ -22,7 +22,7 @@ string is a statement by the consumer, not proof of provenance.
 | CoSAI 189 | `sufficiency_boundary/v1` | Consumer-required assessment classes and observed coverage. |
 | Agent execution / in-toto AIA | `execution_observation/v1` | Consumer-pinned substrate key and coverage policy, with AEE verifier output as an input. |
 
-Only source coverage is implemented. The next steps are:
+Source coverage and exact operand lineage are implemented. The next steps are:
 
 1. Obtain the actual AIID report export and source capture. Keep the April
    intake `not_established` unless an April artifact is available.
@@ -31,7 +31,7 @@ Only source coverage is implemented. The next steps are:
    tampered bytes, hidden script text, wrong capture time, and withdrawn
    requirements.
 3. Build the AVE adapter with a real external authority check.
-4. Build operand lineage and sufficiency adapters around independently
-   collected FINOS and CoSAI field cases.
+4. Bind an independently captured execution trace and source values for a
+   FINOS field case. Build a separate sufficiency adapter for CoSAI.
 5. Index claims, witnesses, challenges, and superseding packets without
    overwriting earlier decisions. Expose the packet contract to consumers.

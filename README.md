@@ -1,8 +1,8 @@
 # probity-verify
 
-An offline verifier for claims against consumer-pinned evidence. The first
-adapter checks whether a stored report contains passages selected from a
-separate source capture.
+An offline verifier for claims against consumer-pinned evidence. One adapter
+checks selected source passages against a stored report. Another recomputes
+operand lineage from pinned source values and a separate execution trace.
 
 ## Run
 
@@ -13,6 +13,8 @@ uv sync --extra test
 uv run pytest
 uv run probity-verify examples/source-coverage/case.json \
   --policy examples/source-coverage/policy-june.json
+uv run probity-verify examples/operand-lineage/case.json \
+  --policy examples/operand-lineage/policy.json
 ```
 
 Add `--json` for the full decision or `--packet decision.txt` to save
@@ -25,16 +27,14 @@ with `policy-complete.json` returns `supported`.
 ## Inputs and decisions
 
 The case supplies local artifacts with relative paths, byte lengths, and
-SHA-256 digests. A separate consumer policy selects the witness, pins its
-digest and capture time, pins the report digest and version, sets a UTC
-source window, and lists required literal passages. The case cannot change
-these requirements.
+SHA-256 digests. A separate consumer policy pins witnesses and sets the
+claim requirements. The case cannot change them.
 
 | Decision | Meaning |
 | --- | --- |
-| `supported` | Every selected passage occurs in the pinned source and bound report. |
-| `contradicted` | A selected passage occurs in the source but is missing from the report. |
-| `not_established` | A binding, pin, time window, or source passage check is unavailable or fails to establish the comparison. |
+| `supported` | The stated claim passes its adapter's checks against the pinned bytes. |
+| `contradicted` | Bound evidence conflicts with a claim requirement. |
+| `not_established` | Required evidence or a rule needed to decide is unavailable. |
 
 The verifier checks supplied bytes; it does not fetch URLs or authenticate
 the authority named in a policy. The consumer must inspect and pin the
@@ -53,3 +53,20 @@ The executable fixtures contain invented text.
 The [source coverage vectors](vectors-source-coverage/README.md) test six
 boundary cases with pinned fixture bytes, expected decisions, and reasons.
 Run them with `uv run --extra test pytest vectors-source-coverage/tests`.
+
+## Operand lineage
+
+`operand_lineage/v1` recomputes ordered binary arithmetic over exact decimal
+strings. A consumer policy pins separate source and execution artifacts,
+declares constants, and names the final step. Every declared constant and
+step must contribute to that figure. A missing or unbound artifact yields
+`not_established`; missing references also yield `not_established`.
+Mismatched known operands or results yield `contradicted`.
+Nonterminating division needs a rounding rule and yields `not_established`.
+Malformed input exits 2 without a verdict.
+
+`supported` means the supplied trace is internally consistent with the
+selected source bytes. The policy's authority label does not authenticate
+who observed execution, establish source completeness, or show that the
+chosen operation answered the intended question. A real execution claim
+needs an independently captured trace and its own binding policy.

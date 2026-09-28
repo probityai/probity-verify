@@ -1,0 +1,16 @@
+{
+  "schema_version": "probity-case/v1",
+  "case_id": "example-lineage",
+  "artifacts": {
+    "source": {
+      "path": "source.json",
+      "sha256": "25cb81c3facf2ade2697af826e9abd91cd4e295e9e7ca4af4c65fff51cf5c2c7",
+      "length": 67
+    },
+    "execution": {
+      "path": "execution.json",
+      "sha256": "9804c939c5262266acd1dba102f73d9e141dfa246a593201adbf59fc3d92f8a2",
+      "length": 692
+    }
+  }
+}

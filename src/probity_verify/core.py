@@ -8,14 +8,16 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
-from .adapters import source_coverage
+from .adapters import operand_lineage, source_coverage
 from .common import CaseError
 
 ADAPTERS: dict[str, Callable[[Any, Any, Path], dict]] = {
     "source_text_coverage/v1": source_coverage.adjudicate,
+    "operand_lineage/v1": operand_lineage.adjudicate,
 }
 DECISIONS = {"supported", "contradicted", "not_established"}
 

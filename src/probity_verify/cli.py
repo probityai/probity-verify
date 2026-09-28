@@ -32,7 +32,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="probity-verify")
     parser.add_argument("case", type=Path)
     parser.add_argument("--policy", type=Path, required=True,
-                        help="consumer-held witness pins and required passages")
+                        help="consumer-held witness pins and claim requirements")
     parser.add_argument("--artifact-root", type=Path,
                         help="directory containing the case's relative artifact paths (default: case directory)")
     parser.add_argument("--packet", type=Path, help="write a readable text decision packet")
