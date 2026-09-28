@@ -1,0 +1,16 @@
+{
+  "artifacts": {
+    "execution": {
+      "length": 1011,
+      "path": "execution.json",
+      "sha256": "7e54faf4dfc2b6ffad6e05bc4aecf8154b2aa64e478eb643c175efc086e75e81"
+    },
+    "source": {
+      "length": 67,
+      "path": "source.json",
+      "sha256": "25cb81c3facf2ade2697af826e9abd91cd4e295e9e7ca4af4c65fff51cf5c2c7"
+    }
+  },
+  "case_id": "operand-lineage-dead-step",
+  "schema_version": "probity-case/v1"
+}
