@@ -54,6 +54,9 @@ The [source coverage vectors](vectors-source-coverage/README.md) test six
 boundary cases with pinned fixture bytes, expected decisions, and reasons.
 Run them with `uv run --extra test pytest vectors-source-coverage/tests`.
 
+The [operand-lineage vectors](vectors-operand-lineage/README.md) test ten
+arithmetic and evidence-boundary cases against an external CLI.
+
 ## Operand lineage
 
 `operand_lineage/v1` recomputes ordered binary arithmetic over exact decimal
