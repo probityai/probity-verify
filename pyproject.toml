@@ -15,7 +15,7 @@ dependencies = []
 test = ["pytest>=8,<10", "hypothesis>=6,<7"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests", "vectors-source-coverage/tests"]
+testpaths = ["tests", "vectors-source-coverage/tests", "vectors-operand-lineage/tests"]
 
 [project.scripts]
 probity-verify = "probity_verify.cli:main"
