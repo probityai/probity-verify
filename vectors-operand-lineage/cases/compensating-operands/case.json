@@ -1,0 +1,16 @@
+{
+  "artifacts": {
+    "execution": {
+      "length": 695,
+      "path": "execution.json",
+      "sha256": "9e10eff7c2eb1caecde0c49292f3401455bbbbe4d9c9b60e11a29138e1f5790a"
+    },
+    "source": {
+      "length": 67,
+      "path": "source.json",
+      "sha256": "25cb81c3facf2ade2697af826e9abd91cd4e295e9e7ca4af4c65fff51cf5c2c7"
+    }
+  },
+  "case_id": "operand-lineage-compensating-operands",
+  "schema_version": "probity-case/v1"
+}
