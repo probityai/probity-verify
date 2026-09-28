@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "probity-verify"
+version = "0.1.0"
+description = "Relying-party adjudication of claims against pinned evidence"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--basetemp=.pytest_cache/tmp"
+
+[project.scripts]
+probity-verify = "probity_verify.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
