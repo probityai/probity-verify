@@ -13,3 +13,4 @@ jobs:
       - run: uv sync --extra test
       - run: uv run --extra test pytest
       - run: uv run --extra test python vectors-source-coverage/check_vectors.py --verifier 'probity-verify'
+      - run: uv run --extra test python vectors-operand-lineage/check_vectors.py --verifier 'probity-verify'
