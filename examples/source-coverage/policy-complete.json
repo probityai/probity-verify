@@ -1,0 +1,32 @@
+{
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "independent-capture": {
+      "artifact": "capture",
+      "sha256": "af2147326bfd924725729eae53d74c26ccf5a6883c2b60a4750d9c500679f489",
+      "captured_at": "2019-06-26T07:25:02Z",
+      "source_url": "https://example.org/captures/synthetic-june",
+      "authority": "Consumer reviewed this synthetic source fixture; no public archive claim",
+      "source_format": "html_article_text/v1"
+    }
+  },
+  "assessments": {
+    "source-coverage-complete-demo": {
+      "claim_type": "source_text_coverage/v1",
+      "source_witness": "independent-capture",
+      "record_artifact": "report",
+      "source_window": {
+        "start": "2019-06-26T00:00:00Z",
+        "end": "2019-06-26T23:59:59Z"
+      },
+      "required_spans": [
+        {
+          "id": "platform-response",
+          "text": "Several channels were removed after the publisher contacted the platform."
+        }
+      ],
+      "record_sha256": "efeccad743e71375bfcf4dbf6e6000d4b736c8910aaa8107594d26c84c7cbbbf",
+      "record_version": "synthetic-complete-report-v1"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "probity-case/v1",
+  "case_id": "source-coverage-complete-demo",
+  "artifacts": {
+    "capture": {
+      "path": "source.html",
+      "sha256": "af2147326bfd924725729eae53d74c26ccf5a6883c2b60a4750d9c500679f489",
+      "length": 314
+    },
+    "report": {
+      "path": "report-complete.txt",
+      "sha256": "efeccad743e71375bfcf4dbf6e6000d4b736c8910aaa8107594d26c84c7cbbbf",
+      "length": 120
+    }
+  }
+}
