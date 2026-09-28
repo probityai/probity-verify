@@ -15,8 +15,7 @@ dependencies = []
 test = ["pytest>=8,<10"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
-addopts = "--basetemp=.pytest_cache/tmp"
+testpaths = ["tests", "vectors-source-coverage/tests"]
 
 [project.scripts]
 probity-verify = "probity_verify.cli:main"
