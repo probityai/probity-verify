@@ -49,3 +49,7 @@ policy digest, artifact bindings, checks, reason, and scope.
 See the [adapter plan](docs/architecture.md) and
 [AIID field note](examples/source-coverage/AIID-FIELD-NOTE.md).
 The executable fixtures contain invented text.
+
+The [source coverage vectors](vectors-source-coverage/README.md) test six
+boundary cases with pinned fixture bytes, expected decisions, and reasons.
+Run them with `uv run --extra test pytest vectors-source-coverage/tests`.
