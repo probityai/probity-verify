@@ -16,7 +16,6 @@ test = ["pytest>=8,<10"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "vectors-source-coverage/tests"]
-addopts = "--basetemp=.pytest_cache/tmp"
 
 [project.scripts]
 probity-verify = "probity_verify.cli:main"
