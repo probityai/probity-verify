@@ -1,0 +1,15 @@
+name: conformance
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  source-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --extra test
+      - run: uv run --extra test pytest
+      - run: uv run --extra test python vectors-source-coverage/check_vectors.py --verifier 'probity-verify'
