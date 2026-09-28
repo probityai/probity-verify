@@ -1,0 +1,26 @@
+{
+  "assessments": {
+    "operand-lineage-execution-absent": {
+      "claim_type": "operand_lineage/v1",
+      "constants": {
+        "multiplier": "2"
+      },
+      "execution_witness": "execution",
+      "final_step": "total",
+      "source_witness": "source"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "execution": {
+      "artifact": "execution",
+      "authority": "consumer-pinned synthetic trace",
+      "sha256": "67f922bbc3b28b03a3e7bd11091c2f012d05df6a6a13543b55df70323e1c00b0"
+    },
+    "source": {
+      "artifact": "source",
+      "authority": "consumer-pinned synthetic source",
+      "sha256": "25cb81c3facf2ade2697af826e9abd91cd4e295e9e7ca4af4c65fff51cf5c2c7"
+    }
+  }
+}
