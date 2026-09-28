@@ -1,0 +1,39 @@
+{
+  "figure": "6.60",
+  "steps": [
+    {
+      "id": "difference",
+      "operands": [
+        {
+          "kind": "source",
+          "ref": "checking",
+          "value": "15.20"
+        },
+        {
+          "kind": "source",
+          "ref": "savings",
+          "value": "12"
+        }
+      ],
+      "operation": "subtract",
+      "result": "3.30"
+    },
+    {
+      "id": "total",
+      "operands": [
+        {
+          "kind": "step",
+          "ref": "difference",
+          "value": "3.30"
+        },
+        {
+          "kind": "constant",
+          "ref": "multiplier",
+          "value": "2"
+        }
+      ],
+      "operation": "multiply",
+      "result": "6.60"
+    }
+  ]
+}
