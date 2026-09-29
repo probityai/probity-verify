@@ -1,8 +1,8 @@
 # probity-verify
 
-An offline verifier for claims against consumer-pinned evidence. One adapter
-checks selected source passages against a stored report. Another recomputes
-operand lineage from pinned source values and a separate execution trace.
+An offline verifier for claims against consumer-pinned evidence. Its adapters
+check selected source passages, exact operand lineage, and a field in a bound
+external authority capture.
 
 ## Run
 
@@ -15,6 +15,8 @@ uv run probity-verify examples/source-coverage/case.json \
   --policy examples/source-coverage/policy-june.json
 uv run probity-verify examples/operand-lineage/case.json \
   --policy examples/operand-lineage/policy.json
+uv run probity-verify examples/authority-anchor/case.json \
+  --policy examples/authority-anchor/policy.json
 ```
 
 Add `--json` for the full decision or `--packet decision.txt` to save
@@ -73,3 +75,16 @@ selected source bytes. The policy's authority label does not authenticate
 who observed execution, establish source completeness, or show that the
 chosen operation answered the intended question. A real execution claim
 needs an independently captured trace and its own binding policy.
+
+## Authority anchor
+
+`authority_anchor/v1` compares a consumer-selected JSON field with an expected
+identity in a pinned HTTP capture. It checks the request target, status, and
+capture window. A different bound identity is `contradicted`; an absent,
+unreadable, wrong-target, or stale capture is `not_established`.
+
+The consumer must pin a capture obtained outside the observed artifact and
+establish its provenance. The verifier does not contact the authority or
+authenticate the transport or capture clock. An AVE class stamp naming
+`external_authority` describes a possible vantage; it is not evidence that a
+particular finding made that probe. The example uses invented identities.
