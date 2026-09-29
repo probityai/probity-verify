@@ -1,8 +1,8 @@
 # probity-verify
 
 An offline verifier for claims against consumer-pinned evidence. Its adapters
-check selected source passages, exact operand lineage, and a field in a bound
-external authority capture.
+check source passages, operand lineage, authority captures, and bounded
+absence claims.
 
 ## Run
 
@@ -17,6 +17,8 @@ uv run probity-verify examples/operand-lineage/case.json \
   --policy examples/operand-lineage/policy.json
 uv run probity-verify examples/authority-anchor/case.json \
   --policy examples/authority-anchor/policy.json
+uv run probity-verify examples/event-absence/case.json \
+  --policy examples/event-absence/policy.json
 ```
 
 Add `--json` for the full decision or `--packet decision.txt` to save
@@ -135,3 +137,17 @@ establish its provenance. The verifier does not contact the authority or
 authenticate the transport or capture clock. An AVE class stamp naming
 `external_authority` describes a possible vantage; it is not evidence that a
 particular finding made that probe. The example uses invented identities.
+
+## Event absence
+
+`event_absence/v1` checks a claim that no event of a selected type occurred
+for one invocation and interval. A bound event in that interval contradicts
+the claim even if coverage is incomplete. An empty record supports it only
+when a separate capability record declares field visibility and the
+observation record declares complete coverage for that claim and scope. The
+same rule applies when the event field is absent or present but empty.
+
+Missing visibility or coverage is `not_established`. Malformed records fail
+without a verdict. Both records are pinned by the consumer policy. Matching
+identifiers and digests do not authenticate the producer or prove that its
+coverage statement is true; the consumer must establish those facts separately.
