@@ -12,12 +12,13 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from .adapters import operand_lineage, source_coverage
+from .adapters import authority_anchor, operand_lineage, source_coverage
 from .common import CaseError
 
 ADAPTERS: dict[str, Callable[[Any, Any, Path], dict]] = {
     "source_text_coverage/v1": source_coverage.adjudicate,
     "operand_lineage/v1": operand_lineage.adjudicate,
+    "authority_anchor/v1": authority_anchor.adjudicate,
 }
 DECISIONS = {"supported", "contradicted", "not_established"}
 
