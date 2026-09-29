@@ -70,7 +70,11 @@ def adjudicate(case: Any, policy: Any, artifact_root: Path) -> dict:
     """
     case = _object(case, "case", {"schema_version", "case_id", "artifacts"})
     policy = _object(policy, "policy", {"schema_version", "witnesses", "assessments"})
-    if case["schema_version"] != "probity-case/v1" or policy["schema_version"] != "probity-policy/v1":
+    schema_pair = (case["schema_version"], policy["schema_version"])
+    if schema_pair not in {
+        ("probity-case/v1", "probity-policy/v1"),
+        ("source-coverage-case/v1", "source-coverage-policy/v1"),
+    }:
         raise CaseError("unsupported schema_version")
     case_id = _string(case["case_id"], "case_id")
     artifacts = case["artifacts"]

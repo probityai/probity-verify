@@ -70,6 +70,9 @@ The executable fixtures contain invented text.
 The [source coverage vectors](vectors-source-coverage/README.md) test six
 boundary cases with pinned fixture bytes, expected decisions, and reasons.
 Run them with `uv run --extra test pytest vectors-source-coverage/tests`.
+For `source_text_coverage/v1`, the CLI accepts either the existing
+`probity-case/v1` and `probity-policy/v1` pair or the neutral
+`source-coverage-case/v1` and `source-coverage-policy/v1` pair. Mixed pairs fail.
 
 The [operand-lineage vectors](vectors-operand-lineage/README.md) test ten
 arithmetic and evidence-boundary cases against an external CLI.
