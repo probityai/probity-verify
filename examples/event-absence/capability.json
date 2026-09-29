@@ -1,0 +1,9 @@
+{
+  "claim_id": "case-1",
+  "invocation_id": "call-7",
+  "producer": "example-sink",
+  "schema_version": "probity-capabilities/v1",
+  "visible_event_types": [
+    "write"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "claim_id": "case-1",
+  "coverage": "complete",
+  "events": [],
+  "invocation_id": "call-7",
+  "producer": "example-sink",
+  "schema_version": "probity-observation/v1",
+  "scope": {
+    "end": "2026-09-01T00:01:00Z",
+    "id": "session-4",
+    "start": "2026-09-01T00:00:00Z"
+  }
+}
