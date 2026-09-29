@@ -35,5 +35,7 @@ The next steps are:
    alone cannot establish the finding's observation.
 4. Bind an independently captured execution trace and source values for a
    FINOS field case. Build a separate sufficiency adapter for CoSAI.
-5. Index claims, witnesses, challenges, and superseding packets without
-   overwriting earlier decisions. Expose the packet contract to consumers.
+5. The local decision index now retains replayable packets, challenges, and
+   superseding decisions without replacing old entries. Next, bind claims to
+   independently identified witnesses and publish a verifiable history that
+   another operator cannot replace wholesale.
