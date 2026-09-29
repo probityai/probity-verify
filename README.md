@@ -60,6 +60,35 @@ identical ZIP bytes. The ZIP is unsigned; its holder can replace the policy,
 artifacts, and decision together. A recipient must establish the policy and
 witness provenance separately.
 
+## Index decisions and disputes
+
+Keep replayable decisions and disputes in a local index:
+
+~~~sh
+uv run probity-bundle create examples/source-coverage/case.json \
+  --policy examples/source-coverage/policy-june.json --output june.zip
+uv run probity-bundle create examples/source-coverage/case.json \
+  --policy examples/source-coverage/policy-april.json --output april.zip
+uv run probity-index add decisions.db june.zip
+uv run probity-index add decisions.db april.zip
+uv run probity-index verify decisions.db
+~~~
+
+Each add prints an event ID. Use those IDs to record a dispute or replacement:
+
+~~~sh
+uv run probity-index challenge decisions.db \
+  --target ID --counter ID --basis "Why this decision is disputed"
+uv run probity-index supersede decisions.db \
+  --target OLD --replacement NEW --basis "Why the new decision replaces it"
+~~~
+
+Verification replays every bundle and checks the references. A challenge does
+not change a verdict. A supersession records the operator's stated reason;
+matching case IDs do not prove that two policies express the same claim.
+The SQLite file is unsigned and its operator can replace its history.
+It does not authenticate witnesses or challengers.
+
 Malformed input exits 2. A valid decision exits 0. The packet includes the
 policy digest, artifact bindings, checks, reason, and scope.
 

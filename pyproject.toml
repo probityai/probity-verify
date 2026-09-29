@@ -20,6 +20,7 @@ testpaths = ["tests", "vectors-source-coverage/tests", "vectors-operand-lineage/
 [project.scripts]
 probity-verify = "probity_verify.cli:main"
 probity-bundle = "probity_verify.bundle:main"
+probity-index = "probity_verify.index:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
