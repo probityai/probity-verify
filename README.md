@@ -45,6 +45,21 @@ scripts, styles, and templates. It does not evaluate CSS or infer what a
 browser displayed. Text matching does not establish that the selected
 passages are material or that the report is otherwise complete.
 
+## Share a replayable decision
+
+```sh
+uv run probity-bundle create examples/source-coverage/case.json \
+  --policy examples/source-coverage/policy-june.json --output decision.zip
+uv run probity-bundle replay decision.zip
+```
+
+The ZIP contains the case, consumer policy, bound artifact bytes, and decision.
+Replay checks the bindings, recomputes the decision, and rejects unsafe archive
+members. Only fully bound cases can be bundled. Identical inputs produce
+identical ZIP bytes. The ZIP is unsigned; its holder can replace the policy,
+artifacts, and decision together. A recipient must establish the policy and
+witness provenance separately.
+
 Malformed input exits 2. A valid decision exits 0. The packet includes the
 policy digest, artifact bindings, checks, reason, and scope.
 
