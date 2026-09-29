@@ -1,0 +1,23 @@
+{
+  "assessments": {
+    "authority-anchor-synthetic": {
+      "capture_window": {
+        "end": "2026-09-28T23:59:59Z",
+        "start": "2026-09-28T00:00:00Z"
+      },
+      "capture_witness": "registry",
+      "claim_type": "authority_anchor/v1",
+      "expected_value": "probityai",
+      "json_pointer": "/owner/login",
+      "request_url": "https://registry.example.test/owners/probity"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "registry": {
+      "artifact": "capture",
+      "authority": "Synthetic consumer-pinned registry capture",
+      "sha256": "0370fcbfb4513d50a1d93367919e5ce605b622874f56f927ff82b6d9f6187957"
+    }
+  }
+}

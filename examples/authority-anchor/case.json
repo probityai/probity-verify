@@ -1,0 +1,11 @@
+{
+  "artifacts": {
+    "capture": {
+      "length": 238,
+      "path": "capture.json",
+      "sha256": "0370fcbfb4513d50a1d93367919e5ce605b622874f56f927ff82b6d9f6187957"
+    }
+  },
+  "case_id": "authority-anchor-synthetic",
+  "schema_version": "probity-case/v1"
+}
