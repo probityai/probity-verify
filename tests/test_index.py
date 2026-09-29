@@ -40,8 +40,6 @@ def _bundle(tmp_path: Path, name: str) -> Path:
 
 
 class TestDecisionIndex:
-    """Shared input construction for supported and rejected histories."""
-
     @staticmethod
     def two_decisions(tmp_path: Path) -> tuple[Path, str, str]:
         index = tmp_path / "decisions.db"
