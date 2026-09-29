@@ -63,21 +63,35 @@ def _witness(case: dict, policy: dict, witness_id: str, root: Path) -> tuple[byt
 
 def _observation(data: bytes) -> dict:
     record = _record(data, "observation", {"schema_version", "claim_id", "invocation_id",
-                                           "producer", "scope", "coverage"}, {"events"})
+                                           "producer", "scope", "coverage"}, {"events", "gaps"})
     if record["schema_version"] != "probity-observation/v1":
         raise CaseError("unsupported observation schema_version")
     _string(record["claim_id"], "observation.claim_id")
     _string(record["invocation_id"], "observation.invocation_id")
     _string(record["producer"], "observation.producer")
     _scope(record["scope"], "observation.scope")
-    if not isinstance(record["coverage"], str) or record["coverage"] not in {"complete", "incomplete"}:
+    if not isinstance(record["coverage"], str) or record["coverage"] not in {
+        "complete", "incomplete", "unknown"
+    }:
         raise CaseError("observation.coverage: unsupported value")
+    gaps = record.get("gaps", [])
+    if record["coverage"] == "incomplete":
+        if not isinstance(gaps, list) or not gaps:
+            raise CaseError("observation.gaps: incomplete coverage requires named gaps")
+    elif "gaps" in record:
+        raise CaseError("observation.gaps: only incomplete coverage can name gaps")
     events = record.get("events", [])
     if not isinstance(events, list):
         raise CaseError("observation.events: expected list")
     seen: set[str] = set()
     start = _instant(record["scope"]["start"], "observation.scope.start")
     end = _instant(record["scope"]["end"], "observation.scope.end")
+    for index, item in enumerate(gaps):
+        gap = _object(item, f"gaps[{index}]", {"start", "end"})
+        gap_start = _instant(gap["start"], f"gaps[{index}].start")
+        gap_end = _instant(gap["end"], f"gaps[{index}].end")
+        if not start <= gap_start < gap_end <= end:
+            raise CaseError("observation.gaps: gap outside scope or empty")
     for index, item in enumerate(events):
         event = _object(item, f"events[{index}]", {"id", "type", "time"})
         event_id = _string(event["id"], f"events[{index}].id")

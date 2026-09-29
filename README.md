@@ -151,3 +151,7 @@ Missing visibility or coverage is `not_established`. Malformed records fail
 without a verdict. Both records are pinned by the consumer policy. Matching
 identifiers and digests do not authenticate the producer or prove that its
 coverage statement is true; the consumer must establish those facts separately.
+
+An observation with `coverage: incomplete` must name its gaps as `start` and
+`end` intervals inside its scope. Use `coverage: unknown` when no gap can be
+located. A bare `incomplete` flag is malformed, not a property verdict.
