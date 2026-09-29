@@ -47,6 +47,13 @@ def evaluate(claim):
     return adjudicate(case, policy, root)
 
 
+def incomplete(claim):
+    claim[4]["coverage"] = "incomplete"
+    claim[4]["gaps"] = [{"start": "2026-09-01T00:00:20Z",
+                         "end": "2026-09-01T00:00:40Z"}]
+    claim[5]("observation", claim[4])
+
+
 def test_absence_requires_visibility_and_complete_coverage(claim):
     result = evaluate(claim)
     assert (result["decision"], result["reason"]) == (
@@ -59,8 +66,7 @@ def test_absence_requires_visibility_and_complete_coverage(claim):
     assert result["checks"][0]["status"] == "unavailable"
     claim[3]["visible_event_types"] = ["write"]
     claim[5]("capability", claim[3])
-    claim[4]["coverage"] = "incomplete"
-    claim[5]("observation", claim[4])
+    incomplete(claim)
     result = evaluate(claim)
     assert (result["decision"], result["reason"]) == (
         "not_established", "observation_coverage_unestablished")
@@ -72,13 +78,12 @@ def test_missing_and_empty_event_field_need_the_same_coverage(claim):
     result = evaluate(claim)
     assert result["decision"] == "supported"
     assert result["checks"][0]["field_present"] is False
-    claim[4]["coverage"] = "incomplete"
-    claim[5]("observation", claim[4])
+    incomplete(claim)
     assert evaluate(claim)["reason"] == "observation_coverage_unestablished"
 
 
 def test_observed_write_refutes_claim_despite_incomplete_coverage(claim):
-    claim[4]["coverage"] = "incomplete"
+    incomplete(claim)
     claim[4]["events"] = [{"id": "event-1", "type": "write",
                            "time": "2026-09-01T00:00:30Z"}]
     claim[5]("observation", claim[4])
@@ -149,3 +154,24 @@ def test_unsupported_claim_type_is_not_a_property_verdict(claim):
     policy["assessments"]["case-1"]["claim_type"] = "event_absence/v2"
     with pytest.raises(CaseError, match="unsupported claim_type"):
         adjudicate(claim[1], policy, claim[0])
+
+
+def test_unknown_coverage_is_unestablished(claim):
+    claim[4]["coverage"] = "unknown"
+    claim[5]("observation", claim[4])
+    assert evaluate(claim)["reason"] == "observation_coverage_unestablished"
+
+
+@pytest.mark.parametrize("change", [
+    lambda record: record.update(coverage="incomplete"),
+    lambda record: record.update(coverage="incomplete", gaps=[]),
+    lambda record: record.update(coverage="incomplete", gaps=[
+        {"start": "2026-09-01T00:01:00Z", "end": "2026-09-01T00:02:00Z"}]),
+    lambda record: record.update(coverage="complete", gaps=[
+        {"start": "2026-09-01T00:00:20Z", "end": "2026-09-01T00:00:40Z"}]),
+])
+def test_malformed_coverage_has_no_verdict(claim, change):
+    change(claim[4])
+    claim[5]("observation", claim[4])
+    with pytest.raises(CaseError):
+        evaluate(claim)
