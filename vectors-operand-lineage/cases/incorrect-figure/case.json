@@ -1,0 +1,16 @@
+{
+  "artifacts": {
+    "execution": {
+      "length": 692,
+      "path": "execution.json",
+      "sha256": "841daa7507b0aacbb952393f71f75a23fb17cae87d3cc3c42c35d8672969c7c0"
+    },
+    "source": {
+      "length": 67,
+      "path": "source.json",
+      "sha256": "25cb81c3facf2ade2697af826e9abd91cd4e295e9e7ca4af4c65fff51cf5c2c7"
+    }
+  },
+  "case_id": "operand-lineage-incorrect-figure",
+  "schema_version": "probity-case/v1"
+}

@@ -1,0 +1,22 @@
+{
+  "figure": "0.333",
+  "steps": [
+    {
+      "id": "quotient",
+      "operands": [
+        {
+          "kind": "source",
+          "ref": "one",
+          "value": "1"
+        },
+        {
+          "kind": "source",
+          "ref": "three",
+          "value": "3"
+        }
+      ],
+      "operation": "divide",
+      "result": "0.333"
+    }
+  ]
+}

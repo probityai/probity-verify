@@ -1,0 +1,16 @@
+{
+  "artifacts": {
+    "execution": {
+      "length": 353,
+      "path": "execution.json",
+      "sha256": "68b03c96abdb7e63e5ebd942a7e4e4c25d82413f522e402b1e175fab5d76bfb8"
+    },
+    "source": {
+      "length": 55,
+      "path": "source.json",
+      "sha256": "82813816ea030ecb3c86f409bb563c3c6e1410afd8406ce24acd7cdd6e6146f0"
+    }
+  },
+  "case_id": "operand-lineage-rounding-unspecified",
+  "schema_version": "probity-case/v1"
+}
