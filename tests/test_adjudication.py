@@ -65,6 +65,19 @@ def test_visible_omission_is_contradicted_only_at_witness_time(bundle):
         "not_established", "witness_outside_source_window")
 
 
+def test_neutral_source_coverage_schema_and_mixed_pair(bundle):
+    case = copy.deepcopy(bundle[2])
+    policy = copy.deepcopy(bundle[3])
+    case["schema_version"] = "source-coverage-case/v1"
+    policy["schema_version"] = "source-coverage-policy/v1"
+    result = check(bundle, case=case, policy=policy)
+    assert (result["decision"], result["reason"]) == (
+        "contradicted", "selected_span_missing_from_record")
+    policy["schema_version"] = "probity-policy/v1"
+    with pytest.raises(CaseError, match="unsupported schema_version"):
+        check(bundle, case=case, policy=policy)
+
+
 def test_supported_when_all_consumer_selected_passages_are_present(bundle):
     root, _, case, policy = bundle
     report = b"The initial incident. Several channels were removed."
