@@ -19,10 +19,11 @@ string is a statement by the consumer, not proof of provenance.
 | AIID report 15 | `source_text_coverage/v1` | Source capture with returned time; bound report version. An April intake cannot be judged from a June capture. |
 | AVE issue 298 / PR 299 | `ave_vantage/v1` | Methodology, engine set, and an external authority probe or substrate observation for claims that require one. |
 | FINOS AI governance 359 | `operand_lineage/v1` | Source values, units, time ranges, and recomputable transformations. |
-| CoSAI 189 | `sufficiency_boundary/v1` | Consumer-required assessment classes and observed coverage. |
+| CoSAI 189 | `event_absence/v1` | Per-claim field visibility and observation coverage for a negative event claim. |
 | Agent execution / in-toto AIA | `execution_observation/v1` | Consumer-pinned substrate key and coverage policy, with AEE verifier output as an input. |
 
-Source coverage, exact operand lineage, and a pinned authority capture are implemented.
+Source coverage, exact operand lineage, a pinned authority capture, and event
+absence are implemented.
 The next steps are:
 
 1. Obtain the actual AIID report export and source capture. Keep the April
@@ -34,7 +35,8 @@ The next steps are:
 3. Bind a real external authority capture for an AVE finding. The class stamp
    alone cannot establish the finding's observation.
 4. Bind an independently captured execution trace and source values for a
-   FINOS field case. Build a separate sufficiency adapter for CoSAI.
+   FINOS field case. Test the event-absence adapter against CoSAI's candidate
+   conformance cases after the workstream settles the rule text.
 5. The local decision index now retains replayable packets, challenges, and
    superseding decisions without replacing old entries. Next, bind claims to
    independently identified witnesses and publish a verifiable history that
