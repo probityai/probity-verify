@@ -1,9 +1,4 @@
-"""Index replayable decisions and explicit disputes without replacing history.
-
-The SQLite file is a local catalogue. Its event IDs and bundle digests detect
-accidental changes to retained rows, but an operator can replace the whole
-file. Neither an event nor a challenge authenticates its author or witnesses.
-"""
+"""Index replayable decisions, challenges, and supersessions in SQLite."""
 
 from __future__ import annotations
 
@@ -48,23 +43,7 @@ def _replay_bytes(data: bytes) -> dict[str, Any]:
 
 
 def _read_bundle(path: Path) -> tuple[bytes, dict[str, Any]]:
-    """Read a bounded bundle and replay the exact bytes retained in the index.
-
-    Parameters
-    ----------
-    path : Path
-        Portable bundle created by probity-bundle.
-
-    Returns
-    -------
-    tuple[bytes, dict[str, Any]]
-        ZIP bytes and the recomputed decision.
-
-    Raises
-    ------
-    CaseError
-        If the bundle is too large or does not replay.
-    """
+    """Read bounded ZIP bytes and replay them."""
     with path.open("rb") as stream:
         data = stream.read(_BUNDLE_LIMIT + 1)
     if len(data) > _BUNDLE_LIMIT:
@@ -265,24 +244,7 @@ def _verify_all(connection: sqlite3.Connection) -> list[dict[str, Any]]:
 
 
 def verify_index(path: Path) -> list[dict[str, Any]]:
-    """Replay retained bundles and check every event reference.
-
-    Parameters
-    ----------
-    path : Path
-        Existing SQLite index.
-
-    Returns
-    -------
-    list[dict[str, Any]]
-        Events in insertion order. A challenge records a dispute; it does not
-        change a target decision or choose an authoritative witness.
-
-    Raises
-    ------
-    CaseError
-        If an event, reference, bundle digest, or replay is invalid.
-    """
+    """Replay bundles and check event IDs and references in insertion order."""
     with closing(_open(path, create=False)) as connection:
         connection.execute("BEGIN")
         return _verify_all(connection)
@@ -315,47 +277,13 @@ def _append(
 
 
 def add_decision(path: Path, bundle_path: Path) -> str:
-    """Replay and retain a decision bundle in the local index.
-
-    Parameters
-    ----------
-    path : Path
-        SQLite index, created on the first decision.
-    bundle_path : Path
-        ZIP containing a case, consumer policy, artifacts, and decision.
-
-    Returns
-    -------
-    str
-        Content-derived ID for the retained decision event.
-
-    Raises
-    ------
-    CaseError
-        If the bundle does not replay or the event already exists.
-    """
+    """Replay a bundle and retain its content-derived decision event."""
     data, result = _read_bundle(bundle_path)
     return _append(path, _decision_event(data, result), bundle=data)
 
 
 def add_challenge(path: Path, target: str, counter: str, basis: str) -> str:
-    """Cite an earlier counterdecision without changing the target verdict.
-
-    Parameters
-    ----------
-    path : Path
-        Existing index.
-    target, counter : str
-        IDs of earlier decision events. They may concern different claim types
-        when the stated basis explains their relationship.
-    basis : str
-        Human account of the dispute, limited to 1,000 characters.
-
-    Returns
-    -------
-    str
-        Content-derived challenge ID. The index does not adjudicate the basis.
-    """
+    """Cite an earlier counterdecision without changing the target verdict."""
     return _append(path, {
         "schema_version": _SCHEMA, "kind": "challenge",
         "target": target, "counter": counter, "basis": basis,
@@ -363,25 +291,7 @@ def add_challenge(path: Path, target: str, counter: str, basis: str) -> str:
 
 
 def add_supersession(path: Path, target: str, replacement: str, basis: str) -> str:
-    """Record a newer decision for the same case and claim type.
-
-    Parameters
-    ----------
-    path : Path
-        Existing index.
-    target : str
-        Earlier decision ID.
-    replacement : str
-        Later decision ID for the same case and claim type.
-    basis : str
-        Human explanation of why the later decision replaces the earlier one.
-        Matching case IDs do not prove that the policies express the same claim.
-
-    Returns
-    -------
-    str
-        Content-derived supersession ID. The old event remains inspectable.
-    """
+    """Link an earlier decision to a later one for the same case and claim type."""
     return _append(path, {
         "schema_version": _SCHEMA, "kind": "supersession",
         "target": target, "replacement": replacement, "basis": basis,
