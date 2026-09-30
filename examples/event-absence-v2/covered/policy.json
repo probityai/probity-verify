@@ -1,0 +1,32 @@
+{
+  "assessments": {
+    "covered": {
+      "capability_witness": "capability",
+      "claim_type": "event_absence/v2",
+      "event_type": "write",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "scope": {
+        "end": "2026-09-01T00:01:00Z",
+        "id": "run-1",
+        "start": "2026-09-01T00:00:00Z"
+      }
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "fe6a8122a0831a4404c938a75d293a76d7a8e8bdd1a61c003d02bba46759d3ad"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "host-broker",
+      "sha256": "a7c6c32e9a77192de4658dd7d55766241a26a2f07bbbeed458d10ba2cc4bacdc",
+      "vantage": "independent"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "claim_id": "covered",
+  "coverage": "complete",
+  "events": [],
+  "invocation_id": "call-1",
+  "producer": "host-broker",
+  "schema_version": "probity-observation/v1",
+  "scope": {
+    "end": "2026-09-01T00:01:00Z",
+    "id": "run-1",
+    "start": "2026-09-01T00:00:00Z"
+  },
+  "vantage": "independent"
+}

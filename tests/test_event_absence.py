@@ -151,7 +151,7 @@ def test_malformed_record_has_no_verdict(claim, change):
 
 def test_unsupported_claim_type_is_not_a_property_verdict(claim):
     policy = copy.deepcopy(claim[2])
-    policy["assessments"]["case-1"]["claim_type"] = "event_absence/v2"
+    policy["assessments"]["case-1"]["claim_type"] = "event_absence/v3"
     with pytest.raises(CaseError, match="unsupported claim_type"):
         adjudicate(claim[1], policy, claim[0])
 

@@ -1,0 +1,20 @@
+{
+  "claim_id": "self-reported-write",
+  "coverage": "complete",
+  "events": [
+    {
+      "id": "write-1",
+      "time": "2026-09-01T00:00:50Z",
+      "type": "write"
+    }
+  ],
+  "invocation_id": "call-1",
+  "producer": "agent-1",
+  "schema_version": "probity-observation/v1",
+  "scope": {
+    "end": "2026-09-01T00:01:00Z",
+    "id": "run-1",
+    "start": "2026-09-01T00:00:00Z"
+  },
+  "vantage": "self_reported"
+}

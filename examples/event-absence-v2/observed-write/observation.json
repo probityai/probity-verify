@@ -1,0 +1,26 @@
+{
+  "claim_id": "observed-write",
+  "coverage": "incomplete",
+  "events": [
+    {
+      "id": "write-1",
+      "time": "2026-09-01T00:00:50Z",
+      "type": "write"
+    }
+  ],
+  "gaps": [
+    {
+      "end": "2026-09-01T00:00:40Z",
+      "start": "2026-09-01T00:00:20Z"
+    }
+  ],
+  "invocation_id": "call-1",
+  "producer": "host-broker",
+  "schema_version": "probity-observation/v1",
+  "scope": {
+    "end": "2026-09-01T00:01:00Z",
+    "id": "run-1",
+    "start": "2026-09-01T00:00:00Z"
+  },
+  "vantage": "independent"
+}

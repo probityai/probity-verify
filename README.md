@@ -152,6 +152,29 @@ without a verdict. Both records are pinned by the consumer policy. Matching
 identifiers and digests do not authenticate the producer or prove that its
 coverage statement is true; the consumer must establish those facts separately.
 
+For claims that require an independent observation, use `event_absence/v2`.
+The policy pins the observation producer and vantage and names the observed
+party. The record must match those pins. A self-reported write is
+`not_established`, while an independently observed write contradicts the
+absence claim even when coverage has a gap. An empty record supports absence
+only with field visibility and complete coverage. Version 1 keeps its existing
+behavior.
+
+Run the three local examples:
+
+```sh
+for name in covered observed-write self-reported-write; do
+  uv run probity-verify "examples/event-absence-v2/$name/case.json" \
+    --policy "examples/event-absence-v2/$name/policy.json"
+done
+```
+
+The decisions are `supported`, `contradicted`, and `not_established`, in
+that order. These fixtures use invented records. A string that says
+`independent` does not prove the producer's vantage; a consumer must establish
+the producer and observation boundary outside this adapter. This version does
+not verify an Observed Effect signature or prior commitment.
+
 An observation with `coverage: incomplete` must name its gaps as `start` and
 `end` intervals inside its scope. Use `coverage: unknown` when no gap can be
 located. A bare `incomplete` flag is malformed, not a property verdict.

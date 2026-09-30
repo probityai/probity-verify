@@ -20,6 +20,7 @@ ADAPTERS: dict[str, Callable[[Any, Any, Path], dict]] = {
     "operand_lineage/v1": operand_lineage.adjudicate,
     "authority_anchor/v1": authority_anchor.adjudicate,
     "event_absence/v1": event_absence.adjudicate,
+    "event_absence/v2": event_absence.adjudicate_v2,
 }
 DECISIONS = {"supported", "contradicted", "not_established"}
 
