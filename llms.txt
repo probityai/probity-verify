@@ -1,0 +1,12 @@
+# probity-verify
+
+> Offline verifier that decides supported, contradicted or not_established for a claim against consumer-pinned evidence bytes.
+
+## Docs
+
+- [Running the verifier](https://github.com/probityai/probity-verify/blob/main/docs/running.md): commands, inputs, decisions
+- [Replayable decisions and the index](https://github.com/probityai/probity-verify/blob/main/docs/bundles-and-index.md): bundles, replay, disputes
+- [Adapters](https://github.com/probityai/probity-verify/blob/main/docs/adapters.md): operand lineage, authority anchor, event absence
+- [Adapter plan](https://github.com/probityai/probity-verify/blob/main/docs/architecture.md): architecture
+- [Source coverage vectors](https://github.com/probityai/probity-verify/blob/main/vectors-source-coverage/README.md)
+- [Operand-lineage vectors](https://github.com/probityai/probity-verify/blob/main/vectors-operand-lineage/README.md)
