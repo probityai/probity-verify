@@ -41,6 +41,7 @@ Version 0.1.0, unreleased. Five adapters ship: `source_text_coverage/v1`, `opera
 | <a name="operand-lineage"></a><a name="authority-anchor"></a><a name="event-absence"></a>[Adapters](https://github.com/probityai/probity-verify/blob/main/docs/adapters.md) | what operand lineage, authority anchor and event absence check, and what they leave to the consumer |
 | [Spend reservations](https://github.com/probityai/probity-verify/blob/main/docs/spend-reservation.md) | replay a pinned budget journal, refuse dispatch without an affordable reservation, and keep pending calls charged |
 | [Adapter plan](https://github.com/probityai/probity-verify/blob/main/docs/architecture.md) | the architecture and the adapters planned next |
+| [A2A server and client](docs/a2a.md) | send raw case bytes to an operator-configured verifier, or read a pinned Lab record |
 | [Source coverage vectors](https://github.com/probityai/probity-verify/blob/main/vectors-source-coverage/README.md) and [operand-lineage vectors](https://github.com/probityai/probity-verify/blob/main/vectors-operand-lineage/README.md) | conformance cases with pinned bytes and expected decisions |
 
 ## License
