@@ -3,6 +3,7 @@
 `event_absence/v2` adds consumer-selected producer and vantage pins to bounded event absence. The consumer names the observed party, invocation, event type, time interval and exact evidence hashes in a policy outside the supplied case.
 
 ```sh
+git checkout 0f29bfa2ad160496eccb643e67921937837d3636
 uv run probity-verify examples/event-absence-v2/covered/case.json \
   --policy examples/event-absence-v2/covered/policy.json
 uv run python examples/event-absence-v2/generate.py --check

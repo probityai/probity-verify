@@ -10,7 +10,7 @@ There is no package release yet, so pin a commit. Python 3.10 or newer and [uv](
 
 ```sh
 git clone https://github.com/probityai/probity-verify && cd probity-verify
-git checkout 49539af7265ae516934123e2f310f7206f520da2
+git checkout 0f29bfa2ad160496eccb643e67921937837d3636
 uv run probity-verify examples/source-coverage/case.json \
   --policy examples/source-coverage/policy-june.json
 ```
