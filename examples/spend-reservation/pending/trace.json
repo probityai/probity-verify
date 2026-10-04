@@ -1,0 +1,46 @@
+{
+  "budget_id": "budget-1",
+  "events": [
+    {
+      "at": 101,
+      "call": {
+        "args_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "attempt": 1,
+        "call_id": "call-1",
+        "input_limit": 10,
+        "model": "loop",
+        "output_limit": 2,
+        "price_sha256": "86e13addbc7807461b59564ebc1e28e61cd8ce1a3aba4d55a9e01f879af43b4f",
+        "provider": "fixture",
+        "target": "tool"
+      },
+      "kind": "reserve",
+      "maximum": 27,
+      "remaining_after": 73,
+      "remaining_before": 100,
+      "reservation": "969187b547515bf762388d4a0c62e2f7a348d53e3628a588ed7069190cdd85da",
+      "sequence": 1
+    },
+    {
+      "at": 102,
+      "call": {
+        "args_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "attempt": 1,
+        "call_id": "call-1",
+        "input_limit": 10,
+        "model": "loop",
+        "output_limit": 2,
+        "price_sha256": "86e13addbc7807461b59564ebc1e28e61cd8ce1a3aba4d55a9e01f879af43b4f",
+        "provider": "fixture",
+        "target": "tool"
+      },
+      "kind": "dispatch",
+      "maximum": 27,
+      "remaining_after": 73,
+      "reservation": "969187b547515bf762388d4a0c62e2f7a348d53e3628a588ed7069190cdd85da",
+      "sequence": 2
+    }
+  ],
+  "policy_sha256": "9233382d37f3008a50eed2d8d1499f351959c49dbeccb0bacc6ee926d5e452ab",
+  "schema_version": "probity-spend-trace/v1"
+}

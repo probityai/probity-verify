@@ -1,0 +1,9 @@
+{
+  "budget_id": "budget-1",
+  "expires_at": 500,
+  "limit": 100,
+  "prices_sha256": "7f2463e0cfcd2a2e94f76eb45f93745e65cfacada8ce0892bc85c9ebe2996875",
+  "schema_version": "probity-spend-policy/v1",
+  "unit": "fixture-credit",
+  "valid_from": 100
+}
