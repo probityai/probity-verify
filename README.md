@@ -1,6 +1,6 @@
 # probity-verify
 
-An offline verifier that decides whether a claim holds against evidence bytes the consumer pinned, with adapters for source passages, operand lineage, authority captures and bounded absence claims.
+An offline verifier that decides whether a claim holds against evidence bytes the consumer pinned, with adapters for source passages, operand lineage, authority captures, bounded absence and spend journals.
 
 It's for auditors, incident reviewers and relying parties who receive a claim about an AI system and need a decision they can replay, not a report they have to trust.
 
@@ -10,7 +10,7 @@ There is no package release yet, so pin a commit. Python 3.10 or newer and [uv](
 
 ```sh
 git clone https://github.com/probityai/probity-verify && cd probity-verify
-git checkout d3c0213ff3697c19535b6bcb63e29e74182807b5
+git checkout 49539af7265ae516934123e2f310f7206f520da2
 uv run probity-verify examples/source-coverage/case.json \
   --policy examples/source-coverage/policy-june.json
 ```
