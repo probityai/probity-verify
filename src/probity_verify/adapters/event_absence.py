@@ -215,8 +215,9 @@ def _adjudicate(case: Any, policy: Any, artifact_root: Path,
             return decide("not_established", "observation_vantage_unestablished")
     matching = [event["id"] for event in record.get("events", [])
                 if event["type"] == event_type]
-    result["checks"].append({"id": "event", "status": "failed" if matching else "unavailable",
-                             "field_present": "events" in record, "observed_ids": matching})
+    event_check = {"id": "event", "status": "failed" if matching else "unavailable",
+                   "field_present": "events" in record, "observed_ids": matching}
+    result["checks"].append(event_check)
     if matching:
         return decide("contradicted", "event_observed")
     if manifest is None:
@@ -234,5 +235,5 @@ def _adjudicate(case: Any, policy: Any, artifact_root: Path,
         return decide("not_established", "field_visibility_unestablished")
     if not complete:
         return decide("not_established", "observation_coverage_unestablished")
-    result["checks"][0]["status"] = "met"
+    event_check["status"] = "met"
     return decide("supported", "absence_within_covered_scope")

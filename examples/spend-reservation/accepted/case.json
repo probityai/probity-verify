@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "budget": {
+      "length": 250,
+      "path": "budget.json",
+      "sha256": "9a9a42f4b497c819e043ea1ca16ad285ef4ba9e57179d9858654f0f6a826d0b3"
+    },
+    "prices": {
+      "length": 221,
+      "path": "prices.json",
+      "sha256": "25ed7caacd1143c7d35592b378dd6c21740c28291c7dd38e474ce0ea3c07b7fb"
+    },
+    "trace": {
+      "length": 1922,
+      "path": "trace.json",
+      "sha256": "5aff80b288a7d25d90eb1b9b218a1428929740be219d5e61fc8e1fb3e801e836"
+    }
+  },
+  "case_id": "accepted",
+  "schema_version": "probity-case/v1"
+}

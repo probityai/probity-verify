@@ -65,6 +65,7 @@ class TestPassingCases:
         assert (result["decision"], result["reason"]) == (
             "supported", "absence_within_covered_scope")
         assert result["checks"][0] == {"id": "observation_vantage", "status": "met"}
+        assert next(c for c in result["checks"] if c["id"] == "event")["status"] == "met"
 
     def test_independent_write_refutes_even_with_a_gap(self, claim):
         observation = claim[4]

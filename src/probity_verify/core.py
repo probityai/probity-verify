@@ -12,7 +12,13 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from .adapters import authority_anchor, event_absence, operand_lineage, source_coverage
+from .adapters import (
+    authority_anchor,
+    event_absence,
+    operand_lineage,
+    source_coverage,
+    spend_reservation,
+)
 from .common import CaseError
 
 ADAPTERS: dict[str, Callable[[Any, Any, Path], dict]] = {
@@ -21,6 +27,7 @@ ADAPTERS: dict[str, Callable[[Any, Any, Path], dict]] = {
     "authority_anchor/v1": authority_anchor.adjudicate,
     "event_absence/v1": event_absence.adjudicate,
     "event_absence/v2": event_absence.adjudicate_v2,
+    "spend_reservation/v1": spend_reservation.adjudicate,
 }
 DECISIONS = {"supported", "contradicted", "not_established"}
 

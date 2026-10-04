@@ -1,180 +1,49 @@
 # probity-verify
 
-An offline verifier for claims against consumer-pinned evidence. Its adapters
-check source passages, operand lineage, authority captures, and bounded
-absence claims.
+An offline verifier that decides whether a claim holds against evidence bytes the consumer pinned, with adapters for source passages, operand lineage, authority captures, bounded absence and spend journals.
 
-## Run
+It's for auditors, incident reviewers and relying parties who receive a claim about an AI system and need a decision they can replay, not a report they have to trust.
 
-Python 3.10 or newer and [uv](https://docs.astral.sh/uv/):
+## Quick start
+
+There is no package release yet, so pin a commit. Python 3.10 or newer and [uv](https://docs.astral.sh/uv/):
 
 ```sh
-uv sync --extra test
-uv run pytest
+git clone https://github.com/probityai/probity-verify && cd probity-verify
+git checkout 49539af7265ae516934123e2f310f7206f520da2
 uv run probity-verify examples/source-coverage/case.json \
   --policy examples/source-coverage/policy-june.json
-uv run probity-verify examples/operand-lineage/case.json \
-  --policy examples/operand-lineage/policy.json
-uv run probity-verify examples/authority-anchor/case.json \
-  --policy examples/authority-anchor/policy.json
-uv run probity-verify examples/event-absence/case.json \
-  --policy examples/event-absence/policy.json
 ```
 
-Add `--json` for the full decision or `--packet decision.txt` to save
-the text packet. The synthetic June case returns
-`contradicted`: a selected passage appears in the source capture but not in
-the stored report. Run with `policy-april.json` to get `not_established`:
-the June capture cannot establish an April intake. `case-complete.json`
-with `policy-complete.json` returns `supported`.
+It prints a decision packet that opens:
 
-## Inputs and decisions
+```text
+Probity decision packet v1
+Case: "source-coverage-demo"
+Claim: source_text_coverage/v1
+Decision: contradicted
+Reason: selected_span_missing_from_record
+Policy SHA-256: dfda1551714f92702169d1411af6b0bfeee54732f934ce71265534af775fa388
+```
 
-The case supplies local artifacts with relative paths, byte lengths, and
-SHA-256 digests. A separate consumer policy pins witnesses and sets the
-claim requirements. The case cannot change them.
+A selected passage is in the source capture but missing from the stored report. The packet goes on to list every artifact binding and check. `uv run pytest` runs the test suite.
 
-| Decision | Meaning |
+## Status
+
+Version 0.1.0, unreleased. Six adapters ship: `source_text_coverage/v1`, `operand_lineage/v1`, `authority_anchor/v1`, `event_absence/v1`, `event_absence/v2` and `spend_reservation/v1`. Each decision is `supported`, `contradicted` or `not_established`. The verifier checks supplied bytes only: it does not fetch URLs or authenticate the authority a policy names.
+
+## Documentation
+
+| page | read it for |
 | --- | --- |
-| `supported` | The stated claim passes its adapter's checks against the pinned bytes. |
-| `contradicted` | Bound evidence conflicts with a claim requirement. |
-| `not_established` | Required evidence or a rule needed to decide is unavailable. |
+| <a name="run"></a><a name="inputs-and-decisions"></a>[Running the verifier](https://github.com/probityai/probity-verify/blob/main/docs/running.md) | every example command, the case and policy inputs, and what each decision means |
+| <a name="share-a-replayable-decision"></a><a name="index-decisions-and-disputes"></a>[Replayable decisions and the index](https://github.com/probityai/probity-verify/blob/main/docs/bundles-and-index.md) | ZIP bundles, replay, and the local index of decisions, challenges and supersessions |
+| <a name="operand-lineage"></a><a name="authority-anchor"></a><a name="event-absence"></a>[Adapters](https://github.com/probityai/probity-verify/blob/main/docs/adapters.md) | what operand lineage, authority anchor and event absence check, and what they leave to the consumer |
+| [Spend reservations](https://github.com/probityai/probity-verify/blob/main/docs/spend-reservation.md) | replay a pinned budget journal, refuse dispatch without an affordable reservation, and keep pending calls charged |
+| [Observation vantage](https://github.com/probityai/probity-verify/blob/main/docs/observation-vantage.md) | select the producer and observation scope, replay bounded absence, and operate a witness with separate keys and retained heads |
+| [Adapter plan](https://github.com/probityai/probity-verify/blob/main/docs/architecture.md) | the architecture and the adapters planned next |
+| [Source coverage vectors](https://github.com/probityai/probity-verify/blob/main/vectors-source-coverage/README.md) and [operand-lineage vectors](https://github.com/probityai/probity-verify/blob/main/vectors-operand-lineage/README.md) | conformance cases with pinned bytes and expected decisions |
 
-The verifier checks supplied bytes; it does not fetch URLs or authenticate
-the authority named in a policy. The consumer must inspect and pin the
-capture independently. HTML extraction reads `<article>` text and omits
-scripts, styles, and templates. It does not evaluate CSS or infer what a
-browser displayed. Text matching does not establish that the selected
-passages are material or that the report is otherwise complete.
+## License
 
-## Share a replayable decision
-
-```sh
-uv run probity-bundle create examples/source-coverage/case.json \
-  --policy examples/source-coverage/policy-june.json --output decision.zip
-uv run probity-bundle replay decision.zip
-```
-
-The ZIP contains the case, consumer policy, bound artifact bytes, and decision.
-Replay checks the bindings, recomputes the decision, and rejects unsafe archive
-members. Only fully bound cases can be bundled. Identical inputs produce
-identical ZIP bytes. The ZIP is unsigned; its holder can replace the policy,
-artifacts, and decision together. A recipient must establish the policy and
-witness provenance separately.
-
-Malformed input exits 2. A valid decision exits 0. The packet includes the
-policy digest, artifact bindings, checks, reason, and scope.
-
-## Index decisions and disputes
-
-Keep replayable decisions and disputes in a local index:
-
-```sh
-uv run probity-bundle create examples/source-coverage/case.json \
-  --policy examples/source-coverage/policy-june.json --output june.zip
-uv run probity-bundle create examples/source-coverage/case.json \
-  --policy examples/source-coverage/policy-april.json --output april.zip
-uv run probity-index add decisions.db june.zip
-uv run probity-index add decisions.db april.zip
-uv run probity-index verify decisions.db
-```
-
-Each add prints an event ID. Use those IDs to record a dispute or replacement:
-
-```sh
-uv run probity-index challenge decisions.db \
-  --target ID --counter ID --basis "Why this decision is disputed"
-uv run probity-index supersede decisions.db \
-  --target OLD --replacement NEW --basis "Why the new decision replaces it"
-```
-
-Verification replays every bundle and checks the references. A challenge does
-not change a verdict. A supersession records the operator's stated reason;
-matching case IDs do not prove that two policies express the same claim.
-The SQLite file is unsigned and its operator can replace its history.
-It does not authenticate witnesses or challengers.
-
-See the [adapter plan](docs/architecture.md) and
-[AIID field note](examples/source-coverage/AIID-FIELD-NOTE.md).
-The executable fixtures contain invented text.
-
-The [source coverage vectors](vectors-source-coverage/README.md) test six
-boundary cases with pinned fixture bytes, expected decisions, and reasons.
-Run them with `uv run --extra test pytest vectors-source-coverage/tests`.
-For `source_text_coverage/v1`, the CLI accepts either the existing
-`probity-case/v1` and `probity-policy/v1` pair or the neutral
-`source-coverage-case/v1` and `source-coverage-policy/v1` pair. Mixed pairs fail.
-
-The [operand-lineage vectors](vectors-operand-lineage/README.md) test ten
-arithmetic and evidence-boundary cases against an external CLI.
-
-## Operand lineage
-
-`operand_lineage/v1` recomputes ordered binary arithmetic over exact decimal
-strings. A consumer policy pins separate source and execution artifacts,
-declares constants, and names the final step. Every declared constant and
-step must contribute to that figure. A missing or unbound artifact yields
-`not_established`; missing references also yield `not_established`.
-Mismatched known operands or results yield `contradicted`.
-Nonterminating division needs a rounding rule and yields `not_established`.
-Malformed input exits 2 without a verdict.
-
-`supported` means the supplied trace is internally consistent with the
-selected source bytes. The policy's authority label does not authenticate
-who observed execution, establish source completeness, or show that the
-chosen operation answered the intended question. A real execution claim
-needs an independently captured trace and its own binding policy.
-
-## Authority anchor
-
-`authority_anchor/v1` compares a consumer-selected JSON field with an expected
-identity in a pinned HTTP capture. It checks the request target, status, and
-capture window. A different bound identity is `contradicted`; an absent,
-unreadable, wrong-target, or stale capture is `not_established`.
-
-The consumer must pin a capture obtained outside the observed artifact and
-establish its provenance. The verifier does not contact the authority or
-authenticate the transport or capture clock. An AVE class stamp naming
-`external_authority` describes a possible vantage; it is not evidence that a
-particular finding made that probe. The example uses invented identities.
-
-## Event absence
-
-`event_absence/v1` checks a claim that no event of a selected type occurred
-for one invocation and interval. A bound event in that interval contradicts
-the claim even if coverage is incomplete. An empty record supports it only
-when a separate capability record declares field visibility and the
-observation record declares complete coverage for that claim and scope. The
-same rule applies when the event field is absent or present but empty.
-
-Missing visibility or coverage is `not_established`. Malformed records fail
-without a verdict. Both records are pinned by the consumer policy. Matching
-identifiers and digests do not authenticate the producer or prove that its
-coverage statement is true; the consumer must establish those facts separately.
-
-For claims that require an independent observation, use `event_absence/v2`.
-The policy pins the observation producer and vantage and names the observed
-party. The record must match those pins. A self-reported write is
-`not_established`, while an independently observed write contradicts the
-absence claim even when coverage has a gap. An empty record supports absence
-only with field visibility and complete coverage. Version 1 keeps its existing
-behavior.
-
-Run the three local examples:
-
-```sh
-for name in covered observed-write self-reported-write; do
-  uv run probity-verify "examples/event-absence-v2/$name/case.json" \
-    --policy "examples/event-absence-v2/$name/policy.json"
-done
-```
-
-The decisions are `supported`, `contradicted`, and `not_established`, in
-that order. These fixtures use invented records. A string that says
-`independent` does not prove the producer's vantage; a consumer must establish
-the producer and observation boundary outside this adapter. This version does
-not verify an Observed Effect signature or prior commitment.
-
-An observation with `coverage: incomplete` must name its gaps as `start` and
-`end` intervals inside its scope. Use `coverage: unknown` when no gap can be
-located. A bare `incomplete` flag is malformed, not a property verdict.
+Apache-2.0.

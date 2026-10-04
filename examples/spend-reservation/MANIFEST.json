@@ -1,0 +1,82 @@
+{
+  "schema": "probity.spend-fixtures.v1",
+  "operator": "authored synthetic controls",
+  "providerBillingExecuted": false,
+  "members": [
+    {
+      "path": "accepted/budget.json",
+      "bytes": 250,
+      "sha256": "9a9a42f4b497c819e043ea1ca16ad285ef4ba9e57179d9858654f0f6a826d0b3"
+    },
+    {
+      "path": "accepted/case.json",
+      "bytes": 555,
+      "sha256": "1c85143f39c2bd52042bb3fd67bd43234120015a24d8e3a23122982dc64f5739"
+    },
+    {
+      "path": "accepted/policy.json",
+      "bytes": 873,
+      "sha256": "171e319e654c361f106fb6e8016d6a82f3a144966e11cb712c4e281ba396a422"
+    },
+    {
+      "path": "accepted/prices.json",
+      "bytes": 221,
+      "sha256": "25ed7caacd1143c7d35592b378dd6c21740c28291c7dd38e474ce0ea3c07b7fb"
+    },
+    {
+      "path": "accepted/trace.json",
+      "bytes": 1922,
+      "sha256": "5aff80b288a7d25d90eb1b9b218a1428929740be219d5e61fc8e1fb3e801e836"
+    },
+    {
+      "path": "pending/budget.json",
+      "bytes": 250,
+      "sha256": "9a9a42f4b497c819e043ea1ca16ad285ef4ba9e57179d9858654f0f6a826d0b3"
+    },
+    {
+      "path": "pending/case.json",
+      "bytes": 554,
+      "sha256": "f1f0d08634cca54d3ee2ce38c8892de5c369c0d1d19a940892ee2cfa095857ae"
+    },
+    {
+      "path": "pending/policy.json",
+      "bytes": 872,
+      "sha256": "10e27f4ac1cd1094cb04f8440b0b69cbbf5e3c11e35cb8b4718fe5731eacc58d"
+    },
+    {
+      "path": "pending/prices.json",
+      "bytes": 221,
+      "sha256": "25ed7caacd1143c7d35592b378dd6c21740c28291c7dd38e474ce0ea3c07b7fb"
+    },
+    {
+      "path": "pending/trace.json",
+      "bytes": 1429,
+      "sha256": "94bb1dbef4581639677df41531ca127a579cb337e90ebf80128fc82d045c2f3f"
+    },
+    {
+      "path": "refused-overshoot/budget.json",
+      "bytes": 250,
+      "sha256": "9a9a42f4b497c819e043ea1ca16ad285ef4ba9e57179d9858654f0f6a826d0b3"
+    },
+    {
+      "path": "refused-overshoot/case.json",
+      "bytes": 563,
+      "sha256": "293e902523d19eae57132005cbf4a1d405768446012d805215fac871fe63fcb2"
+    },
+    {
+      "path": "refused-overshoot/policy.json",
+      "bytes": 882,
+      "sha256": "e1dcd6dc046dbcb542632c66a0d85637ff25705894158f472c90487913634fd0"
+    },
+    {
+      "path": "refused-overshoot/prices.json",
+      "bytes": 221,
+      "sha256": "25ed7caacd1143c7d35592b378dd6c21740c28291c7dd38e474ce0ea3c07b7fb"
+    },
+    {
+      "path": "refused-overshoot/trace.json",
+      "bytes": 716,
+      "sha256": "7b8190e78447db6ec1795c9ef70f9fb097841898ed80d288861e45ce6f33c0c7"
+    }
+  ]
+}
