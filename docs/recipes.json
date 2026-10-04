@@ -15,14 +15,24 @@
   },
   "package_metadata": {
     "path": "pyproject.toml",
-    "bytes": 1095,
-    "sha256": "e739dfd4a0ca40f119d88124e9acbeea4ce597a67423db8ec8a352fab64bdb50"
+    "bytes": 1253,
+    "sha256": "d14d8b1f8bbe35faa4e324caf703a4330cf14319d61845e889ad117183c8a0c3"
   },
   "implementation": [
     {
       "path": "src/probity_verify/__init__.py",
       "bytes": 163,
       "sha256": "1894f94526dfd5a6701945c5deadcc68af6146cdcffdd59487fc21e602ac91b4"
+    },
+    {
+      "path": "src/probity_verify/a2a_client.py",
+      "bytes": 5312,
+      "sha256": "57c807b0b16f612fce2d49ca59ba1fe30d7923ced5c1c2e24ccadfee6dc6a03b"
+    },
+    {
+      "path": "src/probity_verify/a2a_server.py",
+      "bytes": 14631,
+      "sha256": "71bfc361fbc2dacc0a14b4a85ca7a6003165a44b97804f9814233b4140c87fe3"
     },
     {
       "path": "src/probity_verify/adapters/__init__.py",

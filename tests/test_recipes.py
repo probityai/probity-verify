@@ -71,6 +71,13 @@ def test_altered_pinned_artifact_refuses(repository, recipes):
         BUILD(repository, recipes)
 
 
+def test_ambiguous_case_json_refuses(repository, recipes):
+    path = repository / recipes["recipes"][0]["case"]
+    path.write_text('{"case_id":"shadowed",' + path.read_text().lstrip()[1:])
+    with pytest.raises(ValueError, match="duplicate JSON key"):
+        BUILD(repository, recipes)
+
+
 @pytest.mark.parametrize("output", ["recipes.json", "recipes.md"])
 def test_stale_output_refuses_without_writing(repository, monkeypatch, output):
     main = GENERATOR["main"]

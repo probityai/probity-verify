@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 
+from probity_verify.cli import _load
 from probity_verify.core import ADAPTERS, adjudicate
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -43,8 +44,8 @@ def build(root: Path, source: dict) -> dict:
         case_path = local_file(root, recipe["case"])
         policy_path = local_file(root, recipe["policy"])
         local_file(root, recipe["documentation"])
-        case = json.loads(case_path.read_text())
-        policy = json.loads(policy_path.read_text())
+        case = _load(case_path)
+        policy = _load(policy_path)
         decision = adjudicate(case, policy, case_path.parent)
         if decision["claim_type"] != recipe["claim_type"]:
             raise ValueError(f"recipe claim differs from consumer policy: {pair}")
@@ -112,8 +113,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    source = json.loads((ROOT / "docs/recipe-source.json").read_text())
     try:
+        source = _load(ROOT / "docs/recipe-source.json")
         result = build(ROOT, source)
     except (ValueError, OSError, KeyError, TypeError) as exc:
         parser.exit(2, f"build-recipes: {exc}\n")
