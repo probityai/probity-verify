@@ -30,16 +30,19 @@ A selected passage is in the source capture but missing from the stored report. 
 
 ## Status
 
-Version 0.1.0, unreleased. Five adapters ship: `source_text_coverage/v1`, `operand_lineage/v1`, `authority_anchor/v1`, `event_absence/v1` and `spend_reservation/v1`. Each decision is `supported`, `contradicted` or `not_established`. The verifier checks supplied bytes only: it does not fetch URLs or authenticate the authority a policy names.
+Version 0.1.0, unreleased. Six adapters ship: `source_text_coverage/v1`, `operand_lineage/v1`, `authority_anchor/v1`, `event_absence/v1`, `event_absence/v2` and `spend_reservation/v1`. Each decision is `supported`, `contradicted` or `not_established`. The verifier checks supplied bytes only: it does not fetch URLs or authenticate the authority a policy names.
 
 ## Documentation
 
 | page | read it for |
 | --- | --- |
+| [Install a pinned version](https://github.com/probityai/probity-verify/blob/main/docs/install.md) | install outside the source checkout and replay three sample decisions |
+| [Choose a claim check](https://github.com/probityai/probity-verify/blob/main/docs/recipes.md) | select a task from checked recipes and retrieve exact commands and input digests |
 | <a name="run"></a><a name="inputs-and-decisions"></a>[Running the verifier](https://github.com/probityai/probity-verify/blob/main/docs/running.md) | every example command, the case and policy inputs, and what each decision means |
 | <a name="share-a-replayable-decision"></a><a name="index-decisions-and-disputes"></a>[Replayable decisions and the index](https://github.com/probityai/probity-verify/blob/main/docs/bundles-and-index.md) | ZIP bundles, replay, and the local index of decisions, challenges and supersessions |
 | <a name="operand-lineage"></a><a name="authority-anchor"></a><a name="event-absence"></a>[Adapters](https://github.com/probityai/probity-verify/blob/main/docs/adapters.md) | what operand lineage, authority anchor and event absence check, and what they leave to the consumer |
 | [Spend reservations](https://github.com/probityai/probity-verify/blob/main/docs/spend-reservation.md) | replay a pinned budget journal, refuse dispatch without an affordable reservation, and keep pending calls charged |
+| [Observation vantage](https://github.com/probityai/probity-verify/blob/main/docs/observation-vantage.md) | select the producer and observation scope, replay bounded absence, and operate a witness with separate keys and retained heads |
 | [Adapter plan](https://github.com/probityai/probity-verify/blob/main/docs/architecture.md) | the architecture and the adapters planned next |
 | [A2A server and client](docs/a2a.md) | send raw case bytes to an operator-configured verifier, or read a pinned Lab record |
 | [Source coverage vectors](https://github.com/probityai/probity-verify/blob/main/vectors-source-coverage/README.md) and [operand-lineage vectors](https://github.com/probityai/probity-verify/blob/main/vectors-operand-lineage/README.md) | conformance cases with pinned bytes and expected decisions |

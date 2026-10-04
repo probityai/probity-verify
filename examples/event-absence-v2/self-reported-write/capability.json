@@ -1,0 +1,9 @@
+{
+  "claim_id": "self-reported-write",
+  "invocation_id": "call-1",
+  "producer": "agent-1",
+  "schema_version": "probity-capabilities/v1",
+  "visible_event_types": [
+    "write"
+  ]
+}

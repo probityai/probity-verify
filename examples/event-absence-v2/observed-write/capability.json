@@ -1,0 +1,9 @@
+{
+  "claim_id": "observed-write",
+  "invocation_id": "call-1",
+  "producer": "host-broker",
+  "schema_version": "probity-capabilities/v1",
+  "visible_event_types": [
+    "write"
+  ]
+}

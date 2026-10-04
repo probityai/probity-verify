@@ -1,0 +1,16 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 177,
+      "path": "capability.json",
+      "sha256": "fe6a8122a0831a4404c938a75d293a76d7a8e8bdd1a61c003d02bba46759d3ad"
+    },
+    "observation": {
+      "length": 310,
+      "path": "observation.json",
+      "sha256": "a7c6c32e9a77192de4658dd7d55766241a26a2f07bbbeed458d10ba2cc4bacdc"
+    }
+  },
+  "case_id": "covered",
+  "schema_version": "probity-case/v1"
+}

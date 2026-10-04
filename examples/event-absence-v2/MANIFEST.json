@@ -1,0 +1,67 @@
+{
+  "members": [
+    {
+      "bytes": 177,
+      "path": "covered/capability.json",
+      "sha256": "fe6a8122a0831a4404c938a75d293a76d7a8e8bdd1a61c003d02bba46759d3ad"
+    },
+    {
+      "bytes": 417,
+      "path": "covered/case.json",
+      "sha256": "a7dd6f5fe2d359988526c5af10072e93d2d2743a24074f2c53328a230f67e3a6"
+    },
+    {
+      "bytes": 310,
+      "path": "covered/observation.json",
+      "sha256": "a7c6c32e9a77192de4658dd7d55766241a26a2f07bbbeed458d10ba2cc4bacdc"
+    },
+    {
+      "bytes": 893,
+      "path": "covered/policy.json",
+      "sha256": "dd1bbaae6df76da4cb7c366fcecc2aef3c0d4f8c263640a2599584b52c3c9506"
+    },
+    {
+      "bytes": 184,
+      "path": "observed-write/capability.json",
+      "sha256": "6b7a86d855fdd5ff468ee12e70b3cb7ec5875265fdefa0efc20e6aa8b2c08e18"
+    },
+    {
+      "bytes": 424,
+      "path": "observed-write/case.json",
+      "sha256": "a73896956d53d88930ae533a22d62604b55deb8f6df4339cd5b35759170c593c"
+    },
+    {
+      "bytes": 521,
+      "path": "observed-write/observation.json",
+      "sha256": "1bf8c216d57bdbe36f292401bc77cd4585ec5df3e2c61cb1eb4634f0870fc7d1"
+    },
+    {
+      "bytes": 900,
+      "path": "observed-write/policy.json",
+      "sha256": "9607fa644c1e268c1e9b6ffc2d08b84acff9a4d6091406203b01441f020a5f01"
+    },
+    {
+      "bytes": 185,
+      "path": "self-reported-write/capability.json",
+      "sha256": "85b7ad08cb6005c68746409eca378ffb28f0e12c1370b0acba3790151bac69e5"
+    },
+    {
+      "bytes": 429,
+      "path": "self-reported-write/case.json",
+      "sha256": "e03ac083cfdde60bd13e9251c5593abc8d1b8711cb40012b2df696ccc98b7d68"
+    },
+    {
+      "bytes": 418,
+      "path": "self-reported-write/observation.json",
+      "sha256": "2cbb6602528e8f7ad8943262a13f0b12dba1109f2454b91b7db3197451eabd68"
+    },
+    {
+      "bytes": 903,
+      "path": "self-reported-write/policy.json",
+      "sha256": "8808b1195d317dee5e19693308a49681f4bf5a0676720f96f910eefd7dc1e424"
+    }
+  ],
+  "operator": "authored synthetic records",
+  "schema": "probity.vantage-fixtures/v1",
+  "source_commit": "a489590aa537b46f54caddb552b4f6d1464c2565"
+}

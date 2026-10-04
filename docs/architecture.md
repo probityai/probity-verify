@@ -19,11 +19,12 @@ string is a statement by the consumer, not proof of provenance.
 | AIID report 15 | `source_text_coverage/v1` | Source capture with returned time; bound report version. An April intake cannot be judged from a June capture. |
 | AVE issue 298 / PR 299 | `ave_vantage/v1` | Methodology, engine set, and an external authority probe or substrate observation for claims that require one. |
 | FINOS AI governance 359 | `operand_lineage/v1` | Source values, units, time ranges, and recomputable transformations. |
-| CoSAI 189 | `event_absence/v1` | Per-claim field visibility and observation coverage for a negative event claim. |
+| CoSAI 189 | `event_absence/v2` | Consumer-pinned producer and vantage, field visibility, and observation coverage for a negative event claim. The adapter does not verify a signed Observed Effect record. |
 | Agent execution / in-toto AIA | `execution_observation/v1` | Consumer-pinned substrate key and coverage policy, with AEE verifier output as an input. |
 
 Source coverage, exact operand lineage, a pinned authority capture, and event
-absence are implemented.
+absence are implemented. The v2 absence adapter holds self-reported writes at
+`not_established`; its synthetic examples cover all three decisions.
 The next steps are:
 
 1. Obtain the actual AIID report export and source capture. Keep the April

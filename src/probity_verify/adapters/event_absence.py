@@ -42,13 +42,16 @@ def _scope(value: Any, label: str) -> dict:
     return scope
 
 
-def _witness(case: dict, policy: dict, witness_id: str, root: Path) -> tuple[bytes | None, dict]:
+def _witness(case: dict, policy: dict, witness_id: str, root: Path,
+             *, require_vantage: bool = False) -> tuple[bytes | None, dict]:
     witnesses = policy["witnesses"]
     artifacts = case["artifacts"]
     if witness_id not in witnesses:
         raise CaseError(f"unknown witness: {witness_id}")
-    witness = _object(witnesses[witness_id], f"witness.{witness_id}",
-                      {"artifact", "sha256", "authority"})
+    fields = {"artifact", "sha256", "authority"}
+    if require_vantage:
+        fields |= {"producer", "vantage"}
+    witness = _object(witnesses[witness_id], f"witness.{witness_id}", fields)
     artifact_id = _string(witness["artifact"], f"witness.{witness_id}.artifact")
     if artifact_id not in artifacts:
         raise CaseError(f"unknown artifact: {artifact_id}")
@@ -57,18 +60,32 @@ def _witness(case: dict, policy: dict, witness_id: str, root: Path) -> tuple[byt
     data, binding = _artifact(root, artifacts[artifact_id], f"artifacts.{artifact_id}")
     if binding.get("sha256") != pinned:
         data = None
-    return data, {"id": witness_id, "artifact": artifact_id, "authority": authority,
-                  "consumer_pinned_sha256": pinned, "binding": binding}
+    pin = {"id": witness_id, "artifact": artifact_id, "authority": authority,
+           "consumer_pinned_sha256": pinned, "binding": binding}
+    if require_vantage:
+        pin["producer"] = _string(witness["producer"], f"witness.{witness_id}.producer")
+        if not isinstance(witness["vantage"], str) or witness["vantage"] not in {
+            "independent", "self_reported"
+        }:
+            raise CaseError(f"witness.{witness_id}.vantage: unsupported value")
+        pin["vantage"] = witness["vantage"]
+    return data, pin
 
 
-def _observation(data: bytes) -> dict:
-    record = _record(data, "observation", {"schema_version", "claim_id", "invocation_id",
-                                           "producer", "scope", "coverage"}, {"events", "gaps"})
+def _observation(data: bytes, *, require_vantage: bool = False) -> dict:
+    fields = {"schema_version", "claim_id", "invocation_id",
+              "producer", "scope", "coverage"}
+    if require_vantage:
+        fields.add("vantage")
+    record = _record(data, "observation", fields, {"events", "gaps"})
     if record["schema_version"] != "probity-observation/v1":
         raise CaseError("unsupported observation schema_version")
     _string(record["claim_id"], "observation.claim_id")
     _string(record["invocation_id"], "observation.invocation_id")
     _string(record["producer"], "observation.producer")
+    if require_vantage and (not isinstance(record["vantage"], str) or
+                            record["vantage"] not in {"independent", "self_reported"}):
+        raise CaseError("observation.vantage: unsupported value")
     _scope(record["scope"], "observation.scope")
     if not isinstance(record["coverage"], str) or record["coverage"] not in {
         "complete", "incomplete", "unknown"
@@ -119,6 +136,15 @@ def _capabilities(data: bytes) -> dict:
 
 
 def adjudicate(case: Any, policy: Any, artifact_root: Path) -> dict:
+    return _adjudicate(case, policy, artifact_root, require_vantage=False)
+
+
+def adjudicate_v2(case: Any, policy: Any, artifact_root: Path) -> dict:
+    return _adjudicate(case, policy, artifact_root, require_vantage=True)
+
+
+def _adjudicate(case: Any, policy: Any, artifact_root: Path,
+                *, require_vantage: bool) -> dict:
     case = _object(case, "case", {"schema_version", "case_id", "artifacts"})
     policy = _object(policy, "policy", {"schema_version", "witnesses", "assessments"})
     if case["schema_version"] != "probity-case/v1" or policy["schema_version"] != "probity-policy/v1":
@@ -129,29 +155,43 @@ def adjudicate(case: Any, policy: Any, artifact_root: Path) -> dict:
     assessments = policy["assessments"]
     if not isinstance(assessments, dict) or case_id not in assessments:
         raise CaseError("case_id has no consumer assessment")
-    assessment = _object(assessments[case_id], "assessment", {
+    fields = {
         "claim_type", "event_type", "invocation_id", "scope",
-        "capability_witness", "observation_witness"})
-    if assessment["claim_type"] != CLAIM_TYPE:
+        "capability_witness", "observation_witness"}
+    if require_vantage:
+        fields.add("observed_party")
+    assessment = _object(assessments[case_id], "assessment", fields)
+    claim_type = "event_absence/v2" if require_vantage else CLAIM_TYPE
+    if assessment["claim_type"] != claim_type:
         raise CaseError("unsupported claim_type")
     event_type = _string(assessment["event_type"], "event_type")
     invocation = _string(assessment["invocation_id"], "invocation_id")
     scope = _scope(assessment["scope"], "assessment.scope")
     capability_id = _string(assessment["capability_witness"], "capability_witness")
     observation_id = _string(assessment["observation_witness"], "observation_witness")
+    observed_party = (
+        _string(assessment["observed_party"], "observed_party")
+        if require_vantage else None
+    )
     if capability_id == observation_id:
         raise CaseError("capability and observation require separate witnesses")
     capability, capability_pin = _witness(case, policy, capability_id, artifact_root)
-    observed, observation_pin = _witness(case, policy, observation_id, artifact_root)
+    observed, observation_pin = _witness(case, policy, observation_id,
+                                         artifact_root, require_vantage=require_vantage)
     if capability_pin["artifact"] == observation_pin["artifact"]:
         raise CaseError("capability and observation require separate artifacts")
+    limit = ("Pins and compares supplied records. Witness identity, capture completeness, "
+             "and provenance must be established independently.")
+    if require_vantage:
+        limit = ("Producer and vantage are consumer pins, not authenticated identities. "
+                 "Establish them outside this packet.")
     result = {
         "schema_version": "probity-decision/v1", "case_id": case_id,
-        "claim_type": CLAIM_TYPE,
+        "claim_type": claim_type,
         "scope": {"event_type": event_type, "invocation_id": invocation,
                   "interval": scope, "witnesses": {"capability": capability_pin,
                                                    "observation": observation_pin},
-                  "limit": "Pins and compares supplied records. Witness identity, capture completeness, and provenance must be established independently."},
+                  "limit": limit},
         "checks": [],
     }
 
@@ -160,15 +200,24 @@ def adjudicate(case: Any, policy: Any, artifact_root: Path) -> dict:
 
     if observed is None:
         return decide("not_established", "observation_unavailable_or_unbound")
-    record = _observation(observed)
+    record = _observation(observed, require_vantage=require_vantage)
     if (record["claim_id"] != case_id or record["invocation_id"] != invocation or
             record["scope"] != scope):
         return decide("not_established", "observation_context_mismatch")
     manifest = _capabilities(capability) if capability is not None else None
+    if require_vantage:
+        independent = (record["vantage"] == observation_pin["vantage"] == "independent"
+                       and record["producer"] == observation_pin["producer"]
+                       and record["producer"] != observed_party)
+        result["checks"].append({"id": "observation_vantage",
+                                 "status": "met" if independent else "unavailable"})
+        if not independent:
+            return decide("not_established", "observation_vantage_unestablished")
     matching = [event["id"] for event in record.get("events", [])
                 if event["type"] == event_type]
-    result["checks"].append({"id": "event", "status": "failed" if matching else "unavailable",
-                             "field_present": "events" in record, "observed_ids": matching})
+    event_check = {"id": "event", "status": "failed" if matching else "unavailable",
+                   "field_present": "events" in record, "observed_ids": matching}
+    result["checks"].append(event_check)
     if matching:
         return decide("contradicted", "event_observed")
     if manifest is None:
@@ -186,5 +235,5 @@ def adjudicate(case: Any, policy: Any, artifact_root: Path) -> dict:
         return decide("not_established", "field_visibility_unestablished")
     if not complete:
         return decide("not_established", "observation_coverage_unestablished")
-    result["checks"][0]["status"] = "met"
+    event_check["status"] = "met"
     return decide("supported", "absence_within_covered_scope")
