@@ -1,0 +1,13 @@
+[
+  {
+    "expires_at": 400,
+    "fixed_cost": 1,
+    "input_rate": 2,
+    "model": "loop",
+    "output_rate": 3,
+    "provider": "fixture",
+    "target": "tool",
+    "unit": "fixture-credit",
+    "valid_from": 100
+  }
+]
