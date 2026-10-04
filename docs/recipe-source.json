@@ -1,0 +1,94 @@
+{
+  "recipes": [
+    {
+      "task": "Check a selected passage against a retained report",
+      "claim_type": "source_text_coverage/v1",
+      "case": "examples/source-coverage/case.json",
+      "policy": "examples/source-coverage/policy-june.json",
+      "documentation": "docs/running.md",
+      "expected_decision": "contradicted",
+      "scope": "Synthetic source and report; local bytes only."
+    },
+    {
+      "task": "Find missing evidence for an earlier source date",
+      "claim_type": "source_text_coverage/v1",
+      "case": "examples/source-coverage/case.json",
+      "policy": "examples/source-coverage/policy-april.json",
+      "documentation": "docs/running.md",
+      "expected_decision": "not_established",
+      "scope": "Synthetic June capture; April policy remains unresolved."
+    },
+    {
+      "task": "Check a complete retained report",
+      "claim_type": "source_text_coverage/v1",
+      "case": "examples/source-coverage/case-complete.json",
+      "policy": "examples/source-coverage/policy-complete.json",
+      "documentation": "docs/running.md",
+      "expected_decision": "supported",
+      "scope": "Synthetic complete report; selected passages only."
+    },
+    {
+      "task": "Check an output against the operands used",
+      "claim_type": "operand_lineage/v1",
+      "case": "examples/operand-lineage/case.json",
+      "policy": "examples/operand-lineage/policy.json",
+      "documentation": "docs/adapters.md",
+      "expected_decision": "supported",
+      "scope": "Synthetic local execution record; declared operands only."
+    },
+    {
+      "task": "Check a claim against a captured authority",
+      "claim_type": "authority_anchor/v1",
+      "case": "examples/authority-anchor/case.json",
+      "policy": "examples/authority-anchor/policy.json",
+      "documentation": "docs/adapters.md",
+      "expected_decision": "supported",
+      "scope": "Synthetic authority capture; no source authentication or live fetch."
+    },
+    {
+      "task": "Check bounded absence in a declared interval",
+      "claim_type": "event_absence/v1",
+      "case": "examples/event-absence/case.json",
+      "policy": "examples/event-absence/policy.json",
+      "documentation": "docs/adapters.md",
+      "expected_decision": "supported",
+      "scope": "Synthetic observation; consumer-selected interval and producer."
+    },
+    {
+      "task": "Check absence within a selected observation vantage",
+      "claim_type": "event_absence/v2",
+      "case": "examples/event-absence-v2/covered/case.json",
+      "policy": "examples/event-absence-v2/covered/policy.json",
+      "documentation": "docs/observation-vantage.md",
+      "expected_decision": "supported",
+      "scope": "Synthetic selected scope; outside effects remain uncovered."
+    },
+    {
+      "task": "Detect an observed write that contradicts absence",
+      "claim_type": "event_absence/v2",
+      "case": "examples/event-absence-v2/observed-write/case.json",
+      "policy": "examples/event-absence-v2/observed-write/policy.json",
+      "documentation": "docs/observation-vantage.md",
+      "expected_decision": "contradicted",
+      "scope": "Synthetic target observation; selected write only."
+    },
+    {
+      "task": "Keep a self-reported write separate from observation",
+      "claim_type": "event_absence/v2",
+      "case": "examples/event-absence-v2/self-reported-write/case.json",
+      "policy": "examples/event-absence-v2/self-reported-write/policy.json",
+      "documentation": "docs/observation-vantage.md",
+      "expected_decision": "not_established",
+      "scope": "Synthetic self-report; no separately observed target effect."
+    },
+    {
+      "task": "Replay a budget reservation journal",
+      "claim_type": "spend_reservation/v1",
+      "case": "examples/spend-reservation/accepted/case.json",
+      "policy": "examples/spend-reservation/accepted/policy.json",
+      "documentation": "docs/spend-reservation.md",
+      "expected_decision": "supported",
+      "scope": "Synthetic prices and journal; no provider billing execution."
+    }
+  ]
+}

@@ -37,6 +37,7 @@ Version 0.1.0, unreleased. Six adapters ship: `source_text_coverage/v1`, `operan
 | page | read it for |
 | --- | --- |
 | [Install a pinned version](https://github.com/probityai/probity-verify/blob/main/docs/install.md) | install outside the source checkout and replay three sample decisions |
+| [Choose a claim check](https://github.com/probityai/probity-verify/blob/main/docs/recipes.md) | select a task from checked recipes and retrieve exact commands and input digests |
 | <a name="run"></a><a name="inputs-and-decisions"></a>[Running the verifier](https://github.com/probityai/probity-verify/blob/main/docs/running.md) | every example command, the case and policy inputs, and what each decision means |
 | <a name="share-a-replayable-decision"></a><a name="index-decisions-and-disputes"></a>[Replayable decisions and the index](https://github.com/probityai/probity-verify/blob/main/docs/bundles-and-index.md) | ZIP bundles, replay, and the local index of decisions, challenges and supersessions |
 | <a name="operand-lineage"></a><a name="authority-anchor"></a><a name="event-absence"></a>[Adapters](https://github.com/probityai/probity-verify/blob/main/docs/adapters.md) | what operand lineage, authority anchor and event absence check, and what they leave to the consumer |
