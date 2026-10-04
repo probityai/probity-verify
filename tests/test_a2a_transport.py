@@ -218,3 +218,22 @@ def test_real_client_cli_and_invalid_server_config(configured):
                           str(SOURCE / "policy-june.json"), "--artifact-root", str(SOURCE),
                           "--host", "0.0.0.0"], capture_output=True, check=False)
     assert bad.returncode == 2 and not bad.stdout
+
+
+@pytest.mark.parametrize("kind", ["nested-policy", "invalid-url"])
+def test_client_protocol_input_failure_exits_two_without_verdict(tmp_path, kind):
+    policy = SOURCE / "policy-june.json"
+    url = "http://127.0.0.1:41241"
+    if kind == "nested-policy":
+        policy = tmp_path / "nested-policy.json"
+        policy.write_bytes(b'{"value":' + b"[" * 5000 + b"0" + b"]" * 5000 + b"}")
+    else:
+        url = "http://127.0.0.1:bad"
+    result = subprocess.run([sys.executable, "-m", "probity_verify.a2a_client", "--url", url,
+                             "verify", str(SOURCE / "case.json"), "--policy", str(policy)],
+                            capture_output=True, check=False)
+    assert result.returncode == 2
+    assert not result.stdout
+    assert result.stderr.startswith(b"probity-a2a-client:")
+    assert b"Traceback" not in result.stderr
+    assert b"not_established" not in result.stderr

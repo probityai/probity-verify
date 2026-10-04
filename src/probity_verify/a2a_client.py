@@ -98,7 +98,8 @@ def main(argv: list[str] | None = None) -> int:
             pin = args.register_sha256
             mime = LAB_QUERY_MIME
         result, _ = asyncio.run(request(args.url, raw, mime, pin))
-    except (CaseError, ValueError, OSError, httpx.HTTPError, A2AError) as exc:
+    except (CaseError, ValueError, OSError, RecursionError, httpx.InvalidURL,
+            httpx.HTTPError, A2AError) as exc:
         print(f"probity-a2a-client: {exc}", file=sys.stderr)
         return 2
     sys.stdout.buffer.write(result)
