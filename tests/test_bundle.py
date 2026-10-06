@@ -104,7 +104,7 @@ class TestFailingCases(TestBundle):
     def test_changed_artifact_fails_replay(self, tmp_path: Path) -> None:
         bundle = self.create(tmp_path)
         _rewrite_bundle(bundle, {"artifacts/report.txt": b"changed"})
-        with pytest.raises(CaseError, match="cannot bundle binding_mismatch artifact"):
+        with pytest.raises(CaseError, match="artifact binding_mismatch"):
             replay_bundle(bundle)
 
     def test_unselected_artifact_binding_is_still_checked(self, tmp_path: Path) -> None:
@@ -122,7 +122,7 @@ class TestFailingCases(TestBundle):
         bundle = tmp_path / "decision.zip"
         create_bundle(tmp_path / "case.json", root / "policy-june.json", bundle)
         _rewrite_bundle(bundle, {"artifacts/spare.bin": b"changed"})
-        with pytest.raises(CaseError, match="artifacts.spare: cannot bundle binding_mismatch"):
+        with pytest.raises(CaseError, match="artifacts.spare: artifact binding_mismatch"):
             replay_bundle(bundle)
 
     def test_changed_policy_fails_replay(self, tmp_path: Path) -> None:
@@ -174,7 +174,7 @@ class TestFailingCases(TestBundle):
         path = tmp_path / "case.json"
         path.write_text(json.dumps(case), encoding="utf-8")
         with pytest.raises(
-            CaseError, match=re.escape("artifacts.report: cannot bundle binding_mismatch artifact")
+            CaseError, match=re.escape("artifacts.report: artifact binding_mismatch")
         ):
             create_bundle(path, root / "policy-june.json", tmp_path / "decision.zip",
                           artifact_root=root)

@@ -76,8 +76,8 @@
     },
     {
       "path": "src/probity_verify/common.py",
-      "bytes": 3340,
-      "sha256": "913676457669030c6bac883a1edec36850d5ac3aa8c7d510d3e8e751fabe92cb"
+      "bytes": 7123,
+      "sha256": "5daa584163b251fb7038f2c765b3ae2e227ac9fbf162d02682c1c8ba852180c5"
     },
     {
       "path": "src/probity_verify/core.py",
