@@ -15,8 +15,8 @@
   },
   "package_metadata": {
     "path": "pyproject.toml",
-    "bytes": 1253,
-    "sha256": "d14d8b1f8bbe35faa4e324caf703a4330cf14319d61845e889ad117183c8a0c3"
+    "bytes": 1279,
+    "sha256": "666792321bdc2840625791851f953059e9082fdb98ebfee7ffff4881e45e28d2"
   },
   "implementation": [
     {
@@ -31,8 +31,8 @@
     },
     {
       "path": "src/probity_verify/a2a_server.py",
-      "bytes": 14631,
-      "sha256": "71bfc361fbc2dacc0a14b4a85ca7a6003165a44b97804f9814233b4140c87fe3"
+      "bytes": 14464,
+      "sha256": "e3061f3e77712486f2ea4b3036ba28c0adee4bdeec3c012c4ecf046f8eb9d557"
     },
     {
       "path": "src/probity_verify/adapters/__init__.py",
@@ -43,6 +43,11 @@
       "path": "src/probity_verify/adapters/authority_anchor.py",
       "bytes": 7520,
       "sha256": "bb5b7b34cba370a5255be4dcc9f4d6decde98ebe35d2711d432efd2824db445e"
+    },
+    {
+      "path": "src/probity_verify/adapters/brokered_file_write.py",
+      "bytes": 11043,
+      "sha256": "3edaf56335feaff57afa2f8f5bbe9632991a45b04626724b45b467406e20792a"
     },
     {
       "path": "src/probity_verify/adapters/event_absence.py",
@@ -65,29 +70,39 @@
       "sha256": "c7763c9aa8220ca46a230a9d1a052f5dbf53f1b2e1a38e60f9c6a6786fa57a8b"
     },
     {
+      "path": "src/probity_verify/broker_records.py",
+      "bytes": 21386,
+      "sha256": "1dbc1e72cb300e022be6ba68d27bd19bd2a27024e7481ef11ec5259ba4b9399c"
+    },
+    {
       "path": "src/probity_verify/bundle.py",
-      "bytes": 10022,
-      "sha256": "652a3add60b44a7f3e7d5dd09d60391adcc301de99eff342ef6c59d8842f8960"
+      "bytes": 9946,
+      "sha256": "5f4394fde084790c5164d70d5166f9fbc930df0d90f32f42273dd62369594782"
     },
     {
       "path": "src/probity_verify/cli.py",
-      "bytes": 2033,
-      "sha256": "fce9fc2eeb6029da94037822b0400966a19f20e61f80868ac1ac56150ff7ccc7"
+      "bytes": 1794,
+      "sha256": "0a03ef85c956371a6e416ad5abf2e4141ca2c5cbfe3d45c22fef0887546781e1"
     },
     {
       "path": "src/probity_verify/common.py",
-      "bytes": 7123,
-      "sha256": "5daa584163b251fb7038f2c765b3ae2e227ac9fbf162d02682c1c8ba852180c5"
+      "bytes": 7470,
+      "sha256": "f88b1ad6655deceb20a53fada139a23a031a24dbb0c4acad30b21cb611ea06fd"
     },
     {
       "path": "src/probity_verify/core.py",
-      "bytes": 3116,
-      "sha256": "344a24896ca272e8905c33482323f559fbd9ff39add32abd50f6f3dc214b1ab4"
+      "bytes": 3203,
+      "sha256": "6312d4df1a028616c9e6ddec4487721768ecfaf7f2eab49e270f8c85cad1c371"
     },
     {
       "path": "src/probity_verify/index.py",
       "bytes": 12438,
       "sha256": "cbb4c7a1d8be1b580ab84919d778763dc76657a01ca46aced4d750148c905ece"
+    },
+    {
+      "path": "src/probity_verify/json_input.py",
+      "bytes": 2114,
+      "sha256": "ccb4c6fd7c0041cd567c6c65af317d77d02c747e74e9b7468271ee0a011c653c"
     }
   ],
   "recipes": [
@@ -498,6 +513,67 @@
           "path": "examples/spend-reservation/accepted/trace.json",
           "bytes": 1922,
           "sha256": "5aff80b288a7d25d90eb1b9b218a1428929740be219d5e61fc8e1fb3e801e836"
+        }
+      ]
+    },
+    {
+      "task": "Check broker-recorded file completion",
+      "claim_type": "brokered_file_write/v1",
+      "case": "examples/brokered-file-write/recorded/case.json",
+      "policy": "examples/brokered-file-write/recorded/policy.json",
+      "documentation": "docs/brokered-file-write.md",
+      "expected_decision": "supported",
+      "scope": "Synthetic signed broker records; public fixture keys; PEER scope only.",
+      "case_id": "broker-fixture",
+      "expected_reason": "assertion_matches_authenticated_history",
+      "exit_code": 0,
+      "argv": [
+        "probity-verify",
+        "examples/brokered-file-write/recorded/case.json",
+        "--policy",
+        "examples/brokered-file-write/recorded/policy.json",
+        "--json"
+      ],
+      "bindings": [
+        {
+          "path": "examples/brokered-file-write/recorded/case.json",
+          "bytes": 805,
+          "sha256": "09b4c0508ee8e2d95dceb22fe3814ebc989432c7dafdc7535ca8439307fa80b2"
+        },
+        {
+          "path": "examples/brokered-file-write/recorded/policy.json",
+          "bytes": 1276,
+          "sha256": "ec074935878022796d5b25b481ef8f15af6c701cb7b54f242a209d3bcbc1e683"
+        },
+        {
+          "path": "examples/brokered-file-write/recorded/head.json",
+          "bytes": 305,
+          "sha256": "c3bda1f0f75e534618b2c31b9bf2e30426dd86392346980df4db51a10f45d93c"
+        },
+        {
+          "path": "examples/brokered-file-write/recorded/history.jsonl",
+          "bytes": 1964,
+          "sha256": "2560eb2e3f4717c0c5f989a03b33d6727d338a2cd8d7e8786f37f0d095f28a1f"
+        },
+        {
+          "path": "examples/brokered-file-write/recorded/ledger.jsonl",
+          "bytes": 1675,
+          "sha256": "64308ea91afacb92c90867a709cc355fcfc8f79a3453695f636078f86c66c66d"
+        },
+        {
+          "path": "examples/brokered-file-write/recorded/packet.json",
+          "bytes": 4037,
+          "sha256": "1184aa56f3a0857916999fbee33f1681bf9c6f58c07a40acb18eb5dafa673fb8"
+        },
+        {
+          "path": "examples/brokered-file-write/recorded/report.json",
+          "bytes": 243,
+          "sha256": "5656a0aa1a1704886bb17711193037d5c1e595040fd9b290d481b94b5aa8fdf0"
+        },
+        {
+          "path": "examples/brokered-file-write/recorded/result.txt",
+          "bytes": 16,
+          "sha256": "59db8a97176724229b8b3e931ae3d97a297e480d5916eca8726c70d4290c76cc"
         }
       ]
     }

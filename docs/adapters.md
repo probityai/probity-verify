@@ -5,8 +5,10 @@
 `operand_lineage/v1` recomputes ordered binary arithmetic over exact decimal
 strings. A consumer policy pins separate source and execution artifacts,
 declares constants, and names the final step. Every declared constant and
-step must contribute to that figure. A missing or unbound artifact yields
-`not_established`; missing references also yield `not_established`.
+step must contribute to that figure. A missing artifact or a consumer witness
+pin mismatch yields `not_established`; missing references also yield
+`not_established`. A file that differs from its declared length or SHA-256
+refuses with exit 2 and no verdict. Unsafe file reads also refuse.
 Mismatched known operands or results yield `contradicted`.
 Nonterminating division needs a rounding rule and yields `not_established`.
 Malformed input exits 2 without a verdict.
@@ -22,7 +24,8 @@ needs an independently captured trace and its own binding policy.
 `authority_anchor/v1` compares a consumer-selected JSON field with an expected
 identity in a pinned HTTP capture. It checks the request target, status, and
 capture window. A different bound identity is `contradicted`; an absent,
-unreadable, wrong-target, or stale capture is `not_established`.
+unparseable, wrong-target, or stale bound capture is `not_established`.
+Unsafe reads and declared artifact binding mismatches refuse without a verdict.
 
 The consumer must pin a capture obtained outside the observed artifact and
 establish its provenance. The verifier does not contact the authority or
@@ -47,3 +50,11 @@ coverage statement is true; the consumer must establish those facts separately.
 An observation with `coverage: incomplete` must name its gaps as `start` and
 `end` intervals inside its scope. Use `coverage: unknown` when no gap can be
 located. A bare `incomplete` flag is malformed, not a property verdict.
+
+## Broker-recorded file completion
+
+[`brokered_file_write/v1`](brokered-file-write.md) checks a separately selected
+typed `completion_recorded` assertion against authenticated Observer v0 file
+records. Missing terminal evidence has an explicit state. Process failure,
+recorded completion and later retained file bytes remain separate. The check
+does not establish arbitrary effects or independent custody.

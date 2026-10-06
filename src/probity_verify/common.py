@@ -158,6 +158,14 @@ def _artifact(root: Path, metadata: Any, label: str) -> tuple[bytes | None, dict
     return data, {"status": "bound", "path": name, "sha256": actual, "length": length}
 
 
+def _read_input(path: Path, maximum: int, label: str) -> bytes:
+    """Read a consumer control file through the same secure inode boundary."""
+    size = path.lstat().st_size
+    if size > maximum:
+        raise CaseError(f"{label}: input exceeds byte budget")
+    return _read_bound_artifact(path.parent, PurePosixPath(path.name), size, label)
+
+
 def _normalized(data: bytes, label: str) -> str:
     try:
         decoded = data.decode("utf-8", errors="strict")
