@@ -14,6 +14,7 @@ from typing import Any
 
 from .adapters import (
     authority_anchor,
+    brokered_file_write,
     event_absence,
     operand_lineage,
     source_coverage,
@@ -22,6 +23,7 @@ from .adapters import (
 from .common import CaseError
 
 ADAPTERS: dict[str, Callable[[Any, Any, Path], dict]] = {
+    "brokered_file_write/v1": brokered_file_write.adjudicate,
     "source_text_coverage/v1": source_coverage.adjudicate,
     "operand_lineage/v1": operand_lineage.adjudicate,
     "authority_anchor/v1": authority_anchor.adjudicate,

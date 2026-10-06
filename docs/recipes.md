@@ -15,6 +15,7 @@ All examples are authored synthetic records. They do not establish independent o
 | [Detect an observed write that contradicts absence](observation-vantage.md) | `event_absence/v2` | `contradicted` | Synthetic target observation; selected write only. |
 | [Keep a self-reported write separate from observation](observation-vantage.md) | `event_absence/v2` | `not_established` | Synthetic self-report; no separately observed target effect. |
 | [Replay a budget reservation journal](spend-reservation.md) | `spend_reservation/v1` | `supported` | Synthetic prices and journal; no provider billing execution. |
+| [Check broker-recorded file completion](brokered-file-write.md) | `brokered_file_write/v1` | `supported` | Synthetic signed broker records; public fixture keys; PEER scope only. |
 
 ## Retrieve a command
 

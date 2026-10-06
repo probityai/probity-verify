@@ -89,6 +89,15 @@
       "documentation": "docs/spend-reservation.md",
       "expected_decision": "supported",
       "scope": "Synthetic prices and journal; no provider billing execution."
+    },
+    {
+      "task": "Check broker-recorded file completion",
+      "claim_type": "brokered_file_write/v1",
+      "case": "examples/brokered-file-write/recorded/case.json",
+      "policy": "examples/brokered-file-write/recorded/policy.json",
+      "documentation": "docs/brokered-file-write.md",
+      "expected_decision": "supported",
+      "scope": "Synthetic signed broker records; public fixture keys; PEER scope only."
     }
   ]
 }

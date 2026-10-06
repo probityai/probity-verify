@@ -17,9 +17,10 @@ import zipfile
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-from .cli import _invalid_constant, _load, _unique_object
+from .cli import _load
 from .common import MAX_ARTIFACT_BYTES, CaseError, _artifact
 from .core import adjudicate, canonical_json, render_packet
+from .json_input import parse_json
 
 _CONTROL_LIMIT = 1024 * 1024
 _BUNDLE_LIMIT = 64 * 1024 * 1024
@@ -189,10 +190,9 @@ def _read_bundle(path: Path) -> dict[str, bytes]:
 
 def _parse_json(data: bytes, label: str) -> Any:
     try:
-        return json.loads(data.decode("utf-8"), object_pairs_hook=_unique_object,
-                          parse_constant=_invalid_constant)
-    except UnicodeDecodeError as exc:
-        raise CaseError(f"{label}: expected UTF-8 JSON") from exc
+        return parse_json(data, max_bytes=_CONTROL_LIMIT, max_depth=32, max_nodes=32768)
+    except CaseError as exc:
+        raise CaseError(f"{label}: {exc}") from exc
 
 
 def replay_bundle(path: Path) -> dict:

@@ -111,7 +111,8 @@ def test_producer_cannot_self_pin_witness_or_withdraw_required_span(bundle):
 def test_broken_binding_and_unanchored_span_do_not_count_as_contradiction(bundle):
     root, source, _, policy = bundle
     (root / "source.html").write_bytes(b"changed")
-    assert check(bundle)["reason"] == "artifact_unavailable_or_unbound"
+    with pytest.raises(CaseError, match="binding_mismatch"):
+        check(bundle)
     (root / "source.html").write_bytes(source)
     changed = copy.deepcopy(policy)
     changed["assessments"]["case-1"]["required_spans"][0]["text"] = "No such passage."

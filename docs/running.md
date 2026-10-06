@@ -42,3 +42,19 @@ capture independently. HTML extraction reads `<article>` text and omits
 scripts, styles, and templates. It does not evaluate CSS or infer what a
 browser displayed. Text matching does not establish that the selected
 passages are material or that the report is otherwise complete.
+
+## Artifact read boundary
+
+Verify opens artifact paths relative to directory descriptors. Each directory
+and the final regular file must open without symlink traversal. It reads bounded
+chunks and checks the declared length and SHA-256. A missing artifact can produce
+`not_established`. Unsafe paths, nonregular files, changed files and declared
+binding mismatches refuse with exit 2 and no verdict.
+
+This path needs POSIX descriptor-relative `open` and `stat`, non-following `stat`,
+and `O_NOFOLLOW`, `O_DIRECTORY`, `O_NONBLOCK` and `O_CLOEXEC`. Verify refuses
+artifact reads when Python lacks these capabilities. There is no path-based
+fallback. Tests exercise Linux directory and file descriptors, actual symlinks,
+FIFOs, sockets, and replacements at open and read boundaries. These checks bind
+the consumed inode and bytes. They do not authenticate the host or prove that
+a directory stayed unchanged after its descriptor opened.

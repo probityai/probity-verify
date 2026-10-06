@@ -64,6 +64,9 @@ def server(policy, root, register=None):
     ("spend-reservation/accepted", "case.json", "policy.json"),
     ("spend-reservation/pending", "case.json", "policy.json"),
     ("spend-reservation/refused-overshoot", "case.json", "policy.json"),
+    ("brokered-file-write/recorded", "case.json", "policy.json"),
+    ("brokered-file-write/false-negative", "case.json", "policy.json"),
+    ("brokered-file-write/missing-terminal", "case.json", "policy.json"),
 ])
 def test_native_decision_bytes_and_retained_task(directory, case_name, policy_name):
     root = ROOT / "examples" / directory

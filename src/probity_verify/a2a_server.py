@@ -28,7 +28,8 @@ from starlette.applications import Starlette
 from starlette.responses import JSONResponse, PlainTextResponse
 from starlette.routing import Route
 
-from .cli import _invalid_constant, _unique_object
+from .common import _read_input
+from .json_input import parse_json
 from .core import CaseError, adjudicate, canonical_json, render_packet
 
 CASE_MIME = "application/vnd.probity.case+json"
@@ -45,17 +46,12 @@ def digest(raw: bytes) -> str:
 
 
 def parse_raw(raw: bytes) -> object:
-    """Use the CLI's duplicate-key and non-JSON-number admission rules."""
-    return json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_object,
-                      parse_constant=_invalid_constant)
+    """Use bounded duplicate-key and non-JSON-number admission rules."""
+    return parse_json(raw, max_bytes=16 * 1024 * 1024, max_depth=32, max_nodes=32768)
 
 
 def read_bounded(path: Path, limit: int) -> bytes:
-    with path.open("rb") as source:
-        raw = source.read(limit + 1)
-    if len(raw) > limit:
-        raise CaseError("configured input exceeds the byte limit")
-    return raw
+    return _read_input(path, limit, "configured input")
 
 
 class BoundedTaskStore(InMemoryTaskStore):
@@ -89,7 +85,7 @@ class VerifyExecutor(AgentExecutor):
             raise CaseError("consumer policy must be a JSON object")
         self.policy_sha256 = digest(canonical_json(self.policy))
         self.policy_source_sha256 = digest(policy)
-        self.artifact_root = artifact_root.resolve(strict=True)
+        self.artifact_root = artifact_root.absolute()
         if not self.artifact_root.is_dir():
             raise CaseError("artifact root must be a directory")
         self.records: dict[str, dict] = {}

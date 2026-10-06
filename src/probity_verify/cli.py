@@ -8,24 +8,13 @@ import sys
 from pathlib import Path
 
 from .core import CaseError, adjudicate, canonical_json, render_packet
-
-
-def _unique_object(pairs: list[tuple[str, object]]) -> dict:
-    result = {}
-    for key, value in pairs:
-        if key in result:
-            raise CaseError(f"duplicate JSON key: {key}")
-        result[key] = value
-    return result
-
-
-def _invalid_constant(value: str) -> None:
-    raise CaseError(f"non-JSON number: {value}")
+from .common import MAX_ARTIFACT_BYTES, _read_input
+from .json_input import parse_json
 
 
 def _load(path: Path) -> object:
-    return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_unique_object,
-                      parse_constant=_invalid_constant)
+    raw = _read_input(path, MAX_ARTIFACT_BYTES, "control JSON")
+    return parse_json(raw, max_bytes=MAX_ARTIFACT_BYTES, max_depth=32, max_nodes=32768)
 
 
 def main(argv: list[str] | None = None) -> int:

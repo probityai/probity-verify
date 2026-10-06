@@ -699,6 +699,9 @@ wheels = [
 name = "probity-verify"
 version = "0.1.0"
 source = { editable = "." }
+dependencies = [
+    { name = "cryptography" },
+]
 
 [package.optional-dependencies]
 a2a = [
@@ -713,6 +716,7 @@ test = [
 [package.metadata]
 requires-dist = [
     { name = "a2a-sdk", extras = ["http-server"], marker = "extra == 'a2a'", specifier = "==1.2.1" },
+    { name = "cryptography", specifier = ">=50.0.2,<51" },
     { name = "hypothesis", marker = "extra == 'test'", specifier = ">=6,<7" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=8,<10" },
     { name = "uvicorn", marker = "extra == 'a2a'", specifier = "==0.54.0" },
